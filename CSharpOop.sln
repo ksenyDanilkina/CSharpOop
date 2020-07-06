@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RangeTask", "CSharpOop\RangeTask.csproj", "{88704793-49DA-4721-AE5B-17B7E566275B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.RangeTask", "CSharpOop\CSharpOop.RangeTask.csproj", "{88704793-49DA-4721-AE5B-17B7E566275B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
