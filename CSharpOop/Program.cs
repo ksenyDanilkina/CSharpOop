@@ -41,7 +41,35 @@ namespace CSharpOop.RangeTask
             }
             else
             {
-                Console.WriteLine("Интервал - пересечение: ( "+intersectionInterval.From +" ; "+intersectionInterval.To+" )");
+                Console.WriteLine("Интервал - пересечение: ( " + intersectionInterval.From + " ; " + intersectionInterval.To + " )");
+            }
+
+            Range[] intervalsUnionArray = range.GetIntervalsUnion(range2);
+
+            if (intervalsUnionArray.Length == 2)
+            {
+                Console.WriteLine("Объединение интервалов: ( " + intervalsUnionArray[0].From + " ; " + intervalsUnionArray[0].To + " ) ," +
+                    " ( " + intervalsUnionArray[1].From + " ; " + intervalsUnionArray[1].To + " )");
+            }
+            else
+            {
+                Console.WriteLine("Объединение интервалов: ( " + intervalsUnionArray[0].From + " ; " + intervalsUnionArray[0].To + " )");
+            }
+
+            Range[] intervalsDifferenceArray = range.GetIntervalsDifference(range2);
+
+            if (intervalsDifferenceArray == null)
+            {
+                Console.WriteLine("Разность интервалов : null");
+            }
+            else if (intervalsDifferenceArray.Length == 2)
+            {
+                Console.WriteLine("Разность интервалов: ( " + intervalsDifferenceArray[0].From + " ; " + intervalsDifferenceArray[0].To + " ) ," +
+                    " ( " + intervalsDifferenceArray[1].From + " ; " + intervalsDifferenceArray[1].To + " )");
+            }
+            else
+            {
+                Console.WriteLine("Разность интервалов: ( " + intervalsDifferenceArray[0].From + " ; " + intervalsDifferenceArray[0].To + " )");
             }
         }
     }
