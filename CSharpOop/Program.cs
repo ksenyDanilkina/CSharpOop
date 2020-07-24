@@ -26,50 +26,48 @@ namespace CSharpOop.RangeTask
             double number = Convert.ToDouble(Console.ReadLine());
 
             Range range = new Range(from, to);
-            Range range2 = new Range(from2, to2);
+            Range secondRange = new Range(from2, to2);
 
             Console.WriteLine("Начало диапазона: " + from);
             Console.WriteLine("Конец диапазона: " + to);
             Console.WriteLine("Длина диапазона: " + range.GetLength());
             Console.WriteLine("Число принадлежит диапазону: " + range.IsInside(number));
 
-            Range intersectionInterval = range.GetIntersectionInterval(range2);
+            Range intersection = range.GetIntersection(secondRange);
 
-            if (intersectionInterval == null)
+            if (intersection == null)
             {
                 Console.WriteLine("Пересечений нет.");
             }
             else
             {
-                Console.WriteLine("Интервал - пересечение: ( " + intersectionInterval.From + " ; " + intersectionInterval.To + " )");
+                Console.WriteLine("Интервал - пересечение: " + intersection.ToString());
             }
 
-            Range[] intervalsUnionArray = range.GetIntervalsUnion(range2);
+            Range[] union = range.GetUnion(secondRange);
 
-            if (intervalsUnionArray.Length == 2)
+            if (union.Length == 2)
             {
-                Console.WriteLine("Объединение интервалов: ( " + intervalsUnionArray[0].From + " ; " + intervalsUnionArray[0].To + " ) ," +
-                    " ( " + intervalsUnionArray[1].From + " ; " + intervalsUnionArray[1].To + " )");
+                Console.WriteLine("Объединение интервалов: " + union[0].ToString() + "; " + union[1].ToString());
             }
             else
             {
-                Console.WriteLine("Объединение интервалов: ( " + intervalsUnionArray[0].From + " ; " + intervalsUnionArray[0].To + " )");
+                Console.WriteLine("Объединение интервалов: " + union[0].ToString());
             }
 
-            Range[] intervalsDifferenceArray = range.GetIntervalsDifference(range2);
+            Range[] difference = range.GetDifference(secondRange);
 
-            if (intervalsDifferenceArray == null)
+            if (difference.Length == 0)
             {
                 Console.WriteLine("Разность интервалов : null");
             }
-            else if (intervalsDifferenceArray.Length == 2)
+            else if (difference.Length == 2)
             {
-                Console.WriteLine("Разность интервалов: ( " + intervalsDifferenceArray[0].From + " ; " + intervalsDifferenceArray[0].To + " ) ," +
-                    " ( " + intervalsDifferenceArray[1].From + " ; " + intervalsDifferenceArray[1].To + " )");
+                Console.WriteLine("Разность интервалов: " + difference[0].ToString() + "; " + difference[1].ToString());
             }
             else
             {
-                Console.WriteLine("Разность интервалов: ( " + intervalsDifferenceArray[0].From + " ; " + intervalsDifferenceArray[0].To + " )");
+                Console.WriteLine("Разность интервалов: " + difference[0].ToString());
             }
         }
     }

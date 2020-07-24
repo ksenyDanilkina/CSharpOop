@@ -8,17 +8,9 @@ namespace CSharpOop.RangeTask
 {
     class Range
     {
-        public double From
-        {
-            get;
-            set;
-        }
+        public double From { get; set; }
 
-        public double To
-        {
-            get;
-            set;
-        }
+        public double To { get; set; }
 
         public Range(double from, double to)
         {
@@ -36,107 +28,54 @@ namespace CSharpOop.RangeTask
             return number >= From && number <= To;
         }
 
-        public Range GetIntersectionInterval(Range range2)
+        public Range GetIntersection(Range secondRange)
         {
-            double from;
-            double to;
-
-            if ((range2.From - To) * (range2.To - From) >= 0)
+            if ((secondRange.From >= To) || (From >= secondRange.To))
             {
                 return null;
             }
 
-            if (range2.From > From)
-            {
-                from = range2.From;
-            }
-            else
-            {
-                from = From;
-            }
-
-            if (range2.To > To)
-            {
-                to = To;
-            }
-            else
-            {
-                to = range2.To;
-            }
-
-            return new Range(from, to);
+            return new Range(Math.Max(From, secondRange.From), Math.Min(To, secondRange.To));
         }
 
-        public Range[] GetIntervalsUnion(Range range2)
+        public Range[] GetUnion(Range secondRange)
         {
-            double from;
-            double to;
-
-            if ((range2.From - To) * (range2.To - From) > 0)
+            if ((secondRange.From > To) || (From > secondRange.To))
             {
-                return new Range[] { range2, this };
+                return new Range[] { new Range(secondRange.From, secondRange.To), new Range(From, To) };
             }
 
-            if (range2.From <= From)
-            {
-                from = range2.From;
-            }
-            else
-            {
-                from = From;
-            }
-
-            if (range2.To >= To)
-            {
-                to = range2.To;
-            }
-            else
-            {
-                to = To;
-            }
-
-            return new Range[] { new Range(from, to) };
+            return new Range[] { new Range(Math.Min(secondRange.From, From), Math.Max(secondRange.To, To)) };
         }
 
-        public Range[] GetIntervalsDifference(Range range2)
+        public Range[] GetDifference(Range secondRange)
         {
-            double from;
-            double to;
-            double from2;
-            double to2;
-
-            if ((range2.From - To) * (range2.To - From) >= 0)
+            if ((secondRange.From >= To) || (From >= secondRange.To))
             {
-                return new Range[] { this };
+                return new Range[] { new Range(From, To) };
             }
 
-            if (From < range2.From && range2.To < To)
+            if (From < secondRange.From && secondRange.To < To)
             {
-                from = From;
-                to = range2.From;
-                from2 = range2.To;
-                to2 = To;
-
-                return new Range[] { new Range(from, to), new Range(from2, to2) };
+                return new Range[] { new Range(From, secondRange.From), new Range(secondRange.To, To) };
             }
 
-            if (From < range2.From)
+            if (From < secondRange.From)
             {
-                from = From;
-                to = range2.From;
-
-                return new Range[] { new Range(from, to) };
+                return new Range[] { new Range(From, secondRange.From) };
             }
 
-            if (range2.To < To)
+            if (secondRange.To < To)
             {
-                from = range2.To;
-                to = To;
-
-                return new Range[] { new Range(from, to) };
+                return new Range[] { new Range(secondRange.To, To) };
             }
 
-            return null;
+            return new Range[0];
+        }
+
+        public override string ToString()
+        {
+            return "( " + From + "; " + To + " )";
         }
     }
 }
