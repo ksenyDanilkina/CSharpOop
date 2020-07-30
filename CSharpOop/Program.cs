@@ -11,10 +11,10 @@ namespace CSharpOop.RangeTask
         static void Main(string[] args)
         {
             Console.WriteLine("Введите начало числового диапазона: ");
-            double from = Convert.ToDouble(Console.ReadLine());
+            double from1 = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine("Введите конец числового диапазона: ");
-            double to = Convert.ToDouble(Console.ReadLine());
+            double to1 = Convert.ToDouble(Console.ReadLine());
 
             Console.WriteLine("Введите начало второго числового диапазона: ");
             double from2 = Convert.ToDouble(Console.ReadLine());
@@ -25,15 +25,15 @@ namespace CSharpOop.RangeTask
             Console.WriteLine("Введите число, для проверки принадлежности диапазону: ");
             double number = Convert.ToDouble(Console.ReadLine());
 
-            Range range = new Range(from, to);
-            Range secondRange = new Range(from2, to2);
+            Range range1 = new Range(from1, to1);
+            Range range2 = new Range(from2, to2);
 
-            Console.WriteLine("Начало диапазона: " + from);
-            Console.WriteLine("Конец диапазона: " + to);
-            Console.WriteLine("Длина диапазона: " + range.GetLength());
-            Console.WriteLine("Число принадлежит диапазону: " + range.IsInside(number));
+            Console.WriteLine("Начало диапазона: " + from1);
+            Console.WriteLine("Конец диапазона: " + to1);
+            Console.WriteLine("Длина диапазона: " + range1.GetLength());
+            Console.WriteLine("Число принадлежит диапазону: " + range1.IsInside(number));
 
-            Range intersection = range.GetIntersection(secondRange);
+            Range intersection = range1.GetIntersection(range2);
 
             if (intersection == null)
             {
@@ -41,21 +41,21 @@ namespace CSharpOop.RangeTask
             }
             else
             {
-                Console.WriteLine("Интервал - пересечение: " + intersection.ToString());
+                Console.WriteLine("Интервал - пересечение: " + intersection);
             }
 
-            Range[] union = range.GetUnion(secondRange);
+            Range[] union = range1.GetUnion(range2);
 
             if (union.Length == 2)
             {
-                Console.WriteLine("Объединение интервалов: " + union[0].ToString() + "; " + union[1].ToString());
+                Console.WriteLine("Объединение интервалов: " + union[0] + "; " + union[1]);
             }
             else
             {
-                Console.WriteLine("Объединение интервалов: " + union[0].ToString());
+                Console.WriteLine("Объединение интервалов: " + union[0]);
             }
 
-            Range[] difference = range.GetDifference(secondRange);
+            Range[] difference = range1.GetDifference(range2);
 
             if (difference.Length == 0)
             {
@@ -63,11 +63,11 @@ namespace CSharpOop.RangeTask
             }
             else if (difference.Length == 2)
             {
-                Console.WriteLine("Разность интервалов: " + difference[0].ToString() + "; " + difference[1].ToString());
+                Console.WriteLine("Разность интервалов: " + difference[0] + "; " + difference[1]);
             }
             else
             {
-                Console.WriteLine("Разность интервалов: " + difference[0].ToString());
+                Console.WriteLine("Разность интервалов: " + difference[0]);
             }
         }
     }

@@ -28,46 +28,46 @@ namespace CSharpOop.RangeTask
             return number >= From && number <= To;
         }
 
-        public Range GetIntersection(Range secondRange)
+        public Range GetIntersection(Range range2)
         {
-            if ((secondRange.From >= To) || (From >= secondRange.To))
+            if (range2.From >= To || From >= range2.To)
             {
                 return null;
             }
 
-            return new Range(Math.Max(From, secondRange.From), Math.Min(To, secondRange.To));
+            return new Range(Math.Max(From, range2.From), Math.Min(To, range2.To));
         }
 
-        public Range[] GetUnion(Range secondRange)
+        public Range[] GetUnion(Range range2)
         {
-            if ((secondRange.From > To) || (From > secondRange.To))
+            if (range2.From > To || From > range2.To)
             {
-                return new Range[] { new Range(secondRange.From, secondRange.To), new Range(From, To) };
+                return new Range[] { new Range(range2.From, range2.To), new Range(From, To) };
             }
 
-            return new Range[] { new Range(Math.Min(secondRange.From, From), Math.Max(secondRange.To, To)) };
+            return new Range[] { new Range(Math.Min(range2.From, From), Math.Max(range2.To, To)) };
         }
 
-        public Range[] GetDifference(Range secondRange)
+        public Range[] GetDifference(Range range2)
         {
-            if ((secondRange.From >= To) || (From >= secondRange.To))
+            if (range2.From >= To || From >= range2.To)
             {
                 return new Range[] { new Range(From, To) };
             }
 
-            if (From < secondRange.From && secondRange.To < To)
+            if (From < range2.From && range2.To < To)
             {
-                return new Range[] { new Range(From, secondRange.From), new Range(secondRange.To, To) };
+                return new Range[] { new Range(From, range2.From), new Range(range2.To, To) };
             }
 
-            if (From < secondRange.From)
+            if (From < range2.From)
             {
-                return new Range[] { new Range(From, secondRange.From) };
+                return new Range[] { new Range(From, range2.From) };
             }
 
-            if (secondRange.To < To)
+            if (range2.To < To)
             {
-                return new Range[] { new Range(secondRange.To, To) };
+                return new Range[] { new Range(range2.To, To) };
             }
 
             return new Range[0];
