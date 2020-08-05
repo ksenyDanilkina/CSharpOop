@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.RangeTask", "CSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.Shape", "CSharpOop.Shape\CSharpOop.Shape.csproj", "{FCE46717-06DE-45EE-8637-59E1050EEF47}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.Vector", "CSharpOop.Vector\CSharpOop.Vector.csproj", "{6C0F3613-611B-4498-A049-844A61F3A4B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{FCE46717-06DE-45EE-8637-59E1050EEF47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FCE46717-06DE-45EE-8637-59E1050EEF47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCE46717-06DE-45EE-8637-59E1050EEF47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C0F3613-611B-4498-A049-844A61F3A4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C0F3613-611B-4498-A049-844A61F3A4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C0F3613-611B-4498-A049-844A61F3A4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C0F3613-611B-4498-A049-844A61F3A4B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
