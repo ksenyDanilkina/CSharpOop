@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CSharpOop.Shape
+namespace CSharpOop.Shape.Shapes
 {
     class Triangle : IShape
     {
         public double X1 { get; set; }
-        public double X2 { get; set; }
         public double Y1 { get; set; }
+        public double X2 { get; set; }
         public double Y2 { get; set; }
         public double X3 { get; set; }
         public double Y3 { get; set; }
@@ -18,10 +14,10 @@ namespace CSharpOop.Shape
         public Triangle(double x1, double y1, double x2, double y2, double x3, double y3)
         {
             X1 = x1;
-            X2 = x2;
-            X3 = x3;
             Y1 = y1;
+            X2 = x2;
             Y2 = y2;
+            X3 = x3;
             Y3 = y3;
         }
 
@@ -37,14 +33,19 @@ namespace CSharpOop.Shape
 
         public double GetArea()
         {
-            return ((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2;
+            return Math.Abs((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2;
+        }
+
+        public double GetSideLength(double startX, double startY, double endX, double endY)
+        {
+            return Math.Sqrt(Math.Pow((startX - endX), 2) + Math.Pow((startY - endY), 2));
         }
 
         public double GetPerimeter()
         {
-            double length12 = Math.Sqrt(Math.Pow((X1 - X2), 2) + Math.Pow((Y1 - Y2), 2));
-            double length23 = Math.Sqrt(Math.Pow((X2 - X3), 2) + Math.Pow((Y2 - Y3), 2));
-            double length31 = Math.Sqrt(Math.Pow((X3 - X1), 2) + Math.Pow((Y3 - Y1), 2));
+            double length12 = GetSideLength(X1, Y1, X2, Y2);
+            double length23 = GetSideLength(X2, Y2, X3, Y3);
+            double length31 = GetSideLength(X3, Y3, X1, Y1);
 
             return length12 + length23 + length31;
         }

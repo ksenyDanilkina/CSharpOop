@@ -1,43 +1,39 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CSharpOop.Shape
+namespace CSharpOop.Shape.Shapes
 {
-    class Square : IShape
+    class Circle : IShape
     {
-        public double SideLength { get; set; }
+        public double Radius { get; set; }
 
-        public Square(double sideLength)
+        public Circle(double radius)
         {
-            SideLength = sideLength;
+            Radius = radius;
         }
 
         public double GetWidth()
         {
-            return SideLength;
-        }
-
-        public double GetArea()
-        {
-            return Math.Pow(SideLength, 2);
+            return 2 * Radius;
         }
 
         public double GetHeight()
         {
-            return SideLength;
+            return 2 * Radius;
+        }
+
+        public double GetArea()
+        {
+            return Math.PI * Math.Pow(Radius, 2);
         }
 
         public double GetPerimeter()
         {
-            return 4 * SideLength;
+            return 2 * Math.PI * Radius;
         }
 
         public override string ToString()
         {
-            return "Квадрат: " + SideLength;
+            return "Круг: " + Radius;
         }
 
         public override bool Equals(object o)
@@ -52,9 +48,9 @@ namespace CSharpOop.Shape
                 return false;
             }
 
-            Square square = (Square)o;
+            Circle circle = (Circle)o;
 
-            return SideLength == square.SideLength;
+            return Radius == circle.Radius;
         }
 
         public override int GetHashCode()
@@ -62,7 +58,7 @@ namespace CSharpOop.Shape
             int prime = 37;
             int hash = 1;
 
-            hash = prime * hash + SideLength.GetHashCode();
+            hash = prime * hash + Radius.GetHashCode();
 
             return hash;
         }

@@ -1,45 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CSharpOop.Shape
+﻿namespace CSharpOop.Shape.Shapes
 {
     class Rectangle : IShape
     {
-        public double Side1 { get; set; }
-        public double Side2 { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
 
-        public Rectangle(double side1, double side2)
+        public Rectangle(double width, double height)
         {
-            Side1 = side1;
-            Side2 = side2;
+            Width = width;
+            Height = height;
         }
 
         public double GetWidth()
         {
-            return Math.Max(Side1, Side2);
+            return Width;
         }
 
         public double GetHeight()
         {
-            return Math.Min(Side1, Side2);
+            return Height;
         }
 
         public double GetArea()
         {
-            return Side1 * Side2;
+            return Width * Height;
         }
 
         public double GetPerimeter()
         {
-            return 2 * Side1 + 2 * Side2;
+            return 2 * Width + 2 * Height;
         }
 
         public override string ToString()
         {
-            return "Прямоугольник: " + Side1 + ", " + Side2;
+            return "Прямоугольник: " + Width + ", " + Height;
         }
 
         public override bool Equals(object o)
@@ -56,7 +50,7 @@ namespace CSharpOop.Shape
 
             Rectangle rectangle = (Rectangle)o;
 
-            return Side1 == rectangle.Side1 && Side2 == rectangle.Side2;
+            return Width == rectangle.Width && Height == rectangle.Height;
         }
 
         public override int GetHashCode()
@@ -64,8 +58,8 @@ namespace CSharpOop.Shape
             int prime = 37;
             int hash = 1;
 
-            hash = prime * hash + Side1.GetHashCode();
-            hash = prime * hash + Side2.GetHashCode();
+            hash = prime * hash + Width.GetHashCode();
+            hash = prime * hash + Height.GetHashCode();
 
             return hash;
         }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CSharpOop.Shape
+﻿namespace CSharpOop.Shape
 {
     public interface IShape
     {
