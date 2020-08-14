@@ -36,7 +36,7 @@ namespace CSharpOop.Shape.Shapes
             return Math.Abs((X1 - X3) * (Y2 - Y3) - (X2 - X3) * (Y1 - Y3)) / 2;
         }
 
-        public double GetSideLength(double startX, double startY, double endX, double endY)
+        private static double GetSideLength(double startX, double startY, double endX, double endY)
         {
             return Math.Sqrt(Math.Pow((startX - endX), 2) + Math.Pow((startY - endY), 2));
         }
