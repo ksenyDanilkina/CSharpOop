@@ -38,11 +38,11 @@ namespace CSharpOop.ArrayListHome
             List<int> numbers2 = new List<int> { 1, 1, 1, 1, 6, 5, 5, 4, 3, 9, 11, 5, 1, 1, 1, 5, 1, 1, 1 };
             List<int> resultList = new List<int>();
 
-            for (int i = 0; i < numbers2.Count; i++)
+            foreach (int e in numbers2)
             {
-                if (!resultList.Contains(numbers2[i]))
+                if (!resultList.Contains(e))
                 {
-                    resultList.Add(numbers2[i]);
+                    resultList.Add(e);
                 }
             }
 
