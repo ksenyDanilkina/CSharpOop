@@ -13,40 +13,48 @@ namespace CSharpOop.ArrayListHome
         {
             List<string> stringsFromFile = new List<string>();
 
-            using (StreamReader reader = new StreamReader("input.txt"))
+            try
             {
-                string currentFileLine;
-
-                while ((currentFileLine = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader("input.txt"))
                 {
-                    stringsFromFile.Add(currentFileLine);
+                    string currentFileLine;
+
+                    while ((currentFileLine = reader.ReadLine()) != null)
+                    {
+                        stringsFromFile.Add(currentFileLine);
+                    }
                 }
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
 
-            List<int> numbers1 = new List<int> { 1, 6, 5, 4, 3, 9, 11 };
+            List<int> numbers1 = new List<int> { 4, 4, 1, 6, 5, 4, 3, 9, 11, 8, 80 };
 
             for (int i = 0; i < numbers1.Count; i++)
             {
                 if (numbers1[i] % 2 == 0)
                 {
                     numbers1.RemoveAt(i);
+                    i--;
                 }
             }
 
-            Console.WriteLine("Список без четных чисел: " + String.Join(", ", numbers1));
+            Console.WriteLine("Список без четных чисел: " + string.Join(", ", numbers1));
 
             List<int> numbers2 = new List<int> { 1, 1, 1, 1, 6, 5, 5, 4, 3, 9, 11, 5, 1, 1, 1, 5, 1, 1, 1 };
-            List<int> resultList = new List<int>();
+            List<int> noRepeatingNumbersList = new List<int>(10);
 
             foreach (int e in numbers2)
             {
-                if (!resultList.Contains(e))
+                if (!noRepeatingNumbersList.Contains(e))
                 {
-                    resultList.Add(e);
+                    noRepeatingNumbersList.Add(e);
                 }
             }
 
-            Console.WriteLine("Список без повторяющихся чисел: " + String.Join(", ", resultList));
+            Console.WriteLine("Список без повторяющихся чисел: " + string.Join(", ", noRepeatingNumbersList));
         }
     }
 }
