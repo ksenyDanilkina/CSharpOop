@@ -19,18 +19,18 @@ namespace CSharpOop.Vector
             Vector vector8 = new Vector(1, array1);
 
             Console.WriteLine("Размер вектора 4: " + vector4.GetSize());
-            Console.WriteLine("Сумма векторов 3 и 4: " + vector3.GetVectorsAddition(vector4));
-            Console.WriteLine("Разность веткоров 5 и 1: " + vector5.GetVectorsSubtraction(vector1));
-            Console.WriteLine("Произведение вектора 2 на скаляр = 5.0: " + vector2.GetScalarMultiplication(5));
-            Console.WriteLine("Разворот вектора 6: " + vector6.GetRevertVector());
-            Console.WriteLine("Длина вектора 6: " + vector6.GetVectorLength());
+            Console.WriteLine("Сумма векторов 3 и 4: " + vector3.Addition(vector4));
+            Console.WriteLine("Разность веткоров 5 и 1: " + vector5.Subtraction(vector1));
+            Console.WriteLine("Произведение вектора 2 на скаляр = 5.0: " + vector2.Multiplication(5));
+            Console.WriteLine("Разворот вектора 6: " + vector6.GetRevert());
+            Console.WriteLine("Длина вектора 6: " + vector6.GetLength());
 
-            vector1.SetVectorComponent(4, 4.77);
-            Console.WriteLine("Значение компонента ветора 1 с индексом 4: " + vector1.GetVectorComponent(4));
+            vector1.SetComponent(4, 4.77);
+            Console.WriteLine("Значение компонента ветора 1 с индексом 4: " + vector1.GetComponent(4));
 
-            Console.WriteLine("Сумма векторов 1 и 7: " + Vector.GetStaticVectorsAddition(vector1, vector7));
-            Console.WriteLine("Разность векторов 7 и 1: " + Vector.GetStaticVectorsSubtraction(vector7, vector1));
-            Console.WriteLine("Скалярное произведение векторов 7 и 8: " + Vector.GetStaticVectorsScalarMultiplication(vector8, vector7));
+            Console.WriteLine("Сумма векторов 1 и 7: " + Vector.GetAddition(vector1, vector7));
+            Console.WriteLine("Разность векторов 7 и 1: " + Vector.GetSubtraction(vector7, vector1));
+            Console.WriteLine("Скалярное произведение векторов 7 и 8: " + Vector.GetScalarMultiplication(vector8, vector7));
         }
     }
 }

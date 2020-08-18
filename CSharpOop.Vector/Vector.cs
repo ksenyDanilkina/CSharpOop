@@ -1,232 +1,224 @@
 ﻿using System;
+using System.Text;
 
 namespace CSharpOop.Vector
 {
     class Vector
     {
-        public double[] VectorComponents { get; set; }
+        private double[] components;
 
-        public Vector(int n)
+        public double[] Components
         {
-            if (n <= 0)
+            get
             {
-                throw new ArgumentException("Размерность вектора должна быть больше 0.");
+                return components;
             }
 
-            VectorComponents = new double[n];
+            set
+            {
+                if (value.Length <= 0)
+                {
+                    throw new ArgumentException("value должно быть больше 0.", nameof(value));
+                }
+
+                components = value;
+            }
         }
+
+        public Vector(int dimension)
+        {
+            if (dimension <= 0)
+            {
+                throw new ArgumentException("dimension должно быть больше 0.", nameof(dimension));
+            }
+
+            Components = new double[dimension];
+        }
+
         public Vector(Vector vector)
         {
-            VectorComponents = new double[vector.VectorComponents.Length];
-            Array.Copy(vector.VectorComponents, VectorComponents, vector.VectorComponents.Length);
+            Components = new double[vector.Components.Length];
+            Array.Copy(vector.Components, Components, vector.Components.Length);
         }
 
-        public Vector(double[] vectorComponents)
+        public Vector(double[] components)
         {
-            VectorComponents = new double[vectorComponents.Length];
-            Array.Copy(vectorComponents, VectorComponents, vectorComponents.Length);
+            if (components.Length == 0)
+            {
+                throw new ArgumentException("components.Length должно быть больше 0.", nameof(components.Length));
+            }
+
+            Components = new double[components.Length];
+            Array.Copy(components, Components, components.Length);
         }
 
-        public Vector(int n, double[] vectorComponents)
+        public Vector(int dimension, double[] components)
         {
-            if (n <= 0)
+            if (dimension <= 0)
             {
-                throw new ArgumentException("Размерность вектора должна быть больше 0.");
+                throw new ArgumentException("dimension должно быть больше 0.", nameof(dimension));
             }
 
-            VectorComponents = new double[n];
+            if (components.Length == 0)
+            {
+                throw new ArgumentException("components.Length должно быть больше 0.", nameof(components.Length));
+            }
 
-            if (n >= vectorComponents.Length)
-            {
-                Array.Copy(vectorComponents, VectorComponents, vectorComponents.Length);
-            }
-            else
-            {
-                Array.Copy(vectorComponents, VectorComponents, n);
-            }
+            Components = new double[dimension];
+
+            Array.Copy(components, Components, Math.Min(components.Length, dimension));
         }
 
         public int GetSize()
         {
-            return VectorComponents.Length;
+            return Components.Length;
         }
 
         public override string ToString()
         {
-            string resultString = null;
+            StringBuilder resultString = new StringBuilder();
 
-            for (int i = 0; i < VectorComponents.Length; i++)
+            for (int i = 0; i < Components.Length; i++)
             {
                 if (i == 0)
                 {
-                    resultString += "{ " + VectorComponents[i] + ", ";
+                    resultString.Append("{ ").Append(Components[i]).Append(", ");
                     continue;
                 }
 
-                if (i == VectorComponents.Length - 1)
+                if (i == Components.Length - 1)
                 {
-                    resultString += VectorComponents[i] + " }";
+                    resultString.Append(Components[i]).Append(" }");
                     continue;
                 }
 
-                resultString += VectorComponents[i] + ", ";
+                resultString.Append(Components[i]).Append(", ");
             }
 
-            return resultString;
+            return resultString.ToString();
         }
 
-        public Vector GetVectorsAddition(Vector vector)
+        public Vector Addition(Vector vector)
         {
-            if (VectorComponents.Length < vector.VectorComponents.Length)
+            if (Components.Length < vector.Components.Length)
             {
-                double[] tmp = new double[vector.VectorComponents.Length];
-                Array.Copy(VectorComponents, tmp, VectorComponents.Length);
-                VectorComponents = tmp;
-            }
-            else
-            {
-                double[] tmp = new double[VectorComponents.Length];
-                Array.Copy(vector.VectorComponents, tmp, vector.VectorComponents.Length);
-                vector.VectorComponents = tmp;
+                double[] tmp = new double[vector.Components.Length];
+                Array.Copy(Components, tmp, Components.Length);
+                Components = tmp;
             }
 
-            for (int i = 0; i < Math.Max(VectorComponents.Length, vector.VectorComponents.Length); i++)
+            if (Components.Length > vector.Components.Length)
             {
-                VectorComponents[i] += vector.VectorComponents[i];
+                double[] tmp = new double[Components.Length];
+                Array.Copy(vector.Components, tmp, vector.Components.Length);
+                vector.Components = tmp;
+            }
+
+            for (int i = 0; i < Math.Max(Components.Length, vector.Components.Length); i++)
+            {
+                Components[i] += vector.Components[i];
             }
 
             return this;
         }
 
-        public Vector GetVectorsSubtraction(Vector vector)
+        public Vector Subtraction(Vector vector)
         {
-            if (VectorComponents.Length < vector.VectorComponents.Length)
+            if (Components.Length < vector.Components.Length)
             {
-                double[] tmp = new double[vector.VectorComponents.Length];
-                Array.Copy(VectorComponents, tmp, VectorComponents.Length);
-                VectorComponents = tmp;
-            }
-            else
-            {
-                double[] tmp = new double[VectorComponents.Length];
-                Array.Copy(vector.VectorComponents, tmp, vector.VectorComponents.Length);
-                vector.VectorComponents = tmp;
+                double[] tmp = new double[vector.Components.Length];
+                Array.Copy(Components, tmp, Components.Length);
+                Components = tmp;
             }
 
-            for (int i = 0; i < Math.Max(VectorComponents.Length, vector.VectorComponents.Length); i++)
+            if (Components.Length > vector.Components.Length)
             {
-                VectorComponents[i] -= vector.VectorComponents[i];
+                double[] tmp = new double[Components.Length];
+                Array.Copy(vector.Components, tmp, vector.Components.Length);
+                vector.Components = tmp;
+            }
+
+            for (int i = 0; i < Math.Max(Components.Length, vector.Components.Length); i++)
+            {
+                Components[i] -= vector.Components[i];
             }
 
             return this;
         }
 
-        public Vector GetScalarMultiplication(double scalar)
+        public Vector Multiplication(double scalar)
         {
-            for (int i = 0; i < VectorComponents.Length; i++)
+            for (int i = 0; i < Components.Length; i++)
             {
-                VectorComponents[i] *= scalar;
+                Components[i] *= scalar;
             }
 
             return this;
         }
 
-        public Vector GetRevertVector()
+        public Vector GetRevert()
         {
-            for (int i = 0; i < VectorComponents.Length; i++)
-            {
-                VectorComponents[i] *= -1;
-            }
-
-            return this;
+            return Multiplication(-1);
         }
 
-        public double GetVectorLength()
+        public double GetLength()
         {
-            double vectorLength = 0;
+            double squaredComponentsSum = 0;
 
-            for (int i = 0; i < VectorComponents.Length; i++)
+            foreach (double e in Components)
             {
-                vectorLength += Math.Pow(VectorComponents[i], 2);
+                squaredComponentsSum += Math.Pow(e, 2);
             }
 
-            return Math.Sqrt(vectorLength);
+            return Math.Sqrt(squaredComponentsSum);
         }
 
-        public double GetVectorComponent(int index)
+        public double GetComponent(int index)
         {
-            return VectorComponents[index];
+            return Components[index];
         }
 
-        public void SetVectorComponent(int index, double value)
+        public void SetComponent(int index, double value)
         {
-            VectorComponents[index] = value;
+            Components[index] = value;
         }
 
-        public static Vector GetStaticVectorsAddition(Vector vector1, Vector vector2)
+        public static Vector GetAddition(Vector vector1, Vector vector2)
         {
-            int maxArrayLength = Math.Max(vector2.VectorComponents.Length, vector1.VectorComponents.Length);
-
-            Vector resultVector = new Vector(maxArrayLength);
-            Array.Copy(vector1.VectorComponents, resultVector.VectorComponents, vector1.VectorComponents.Length);
-
-            if (vector2.VectorComponents.Length < vector1.VectorComponents.Length)
-            {
-                double[] tmp = new double[vector1.VectorComponents.Length];
-                Array.Copy(vector2.VectorComponents, tmp, vector2.VectorComponents.Length);
-                vector2.VectorComponents = tmp;
-            }
-
-            for (int i = 0; i < maxArrayLength; i++)
-            {
-                resultVector.VectorComponents[i] += vector2.VectorComponents[i];
-            }
+            Vector resultVector = vector1.Addition(vector2);
 
             return resultVector;
         }
 
-        public static Vector GetStaticVectorsSubtraction(Vector vector1, Vector vector2)
+        public static Vector GetSubtraction(Vector vector1, Vector vector2)
         {
-            int maxArrayLength = Math.Max(vector2.VectorComponents.Length, vector1.VectorComponents.Length);
-
-            Vector resultVector = new Vector(maxArrayLength);
-            Array.Copy(vector1.VectorComponents, resultVector.VectorComponents, vector1.VectorComponents.Length);
-
-            if (vector2.VectorComponents.Length < vector1.VectorComponents.Length)
-            {
-                double[] tmp = new double[vector1.VectorComponents.Length];
-                Array.Copy(vector2.VectorComponents, tmp, vector2.VectorComponents.Length);
-                vector2.VectorComponents = tmp;
-            }
-
-            for (int i = 0; i < maxArrayLength; i++)
-            {
-                resultVector.VectorComponents[i] -= vector2.VectorComponents[i];
-            }
+            Vector resultVector = vector1.Subtraction(vector2);
 
             return resultVector;
         }
 
-        public static Vector GetStaticVectorsScalarMultiplication(Vector vector1, Vector vector2)
+        public static double GetScalarMultiplication(Vector vector1, Vector vector2)
         {
-            int maxArrayLength = Math.Max(vector2.VectorComponents.Length, vector1.VectorComponents.Length);
+            int maxArrayLength = Math.Max(vector2.Components.Length, vector1.Components.Length);
 
             Vector resultVector = new Vector(maxArrayLength);
-            Array.Copy(vector1.VectorComponents, resultVector.VectorComponents, vector1.VectorComponents.Length);
+            Array.Copy(vector1.Components, resultVector.Components, vector1.Components.Length);
 
-            if (vector2.VectorComponents.Length < vector1.VectorComponents.Length)
+            if (vector2.Components.Length < vector1.Components.Length)
             {
-                double[] tmp = new double[vector1.VectorComponents.Length];
-                Array.Copy(vector2.VectorComponents, tmp, vector2.VectorComponents.Length);
-                vector2.VectorComponents = tmp;
+                double[] tmp = new double[vector1.Components.Length];
+                Array.Copy(vector2.Components, tmp, vector2.Components.Length);
+                vector2.Components = tmp;
             }
+
+            double scalarMultiplicationResult = 0;
 
             for (int i = 0; i < maxArrayLength; i++)
             {
-                resultVector.VectorComponents[i] *= vector2.VectorComponents[i];
+                scalarMultiplicationResult += resultVector.Components[i] * vector2.Components[i];
             }
 
-            return resultVector;
+            return scalarMultiplicationResult;
         }
 
         public override bool Equals(object o)
@@ -243,14 +235,14 @@ namespace CSharpOop.Vector
 
             Vector vector = (Vector)o;
 
-            if (VectorComponents.Length != vector.VectorComponents.Length)
+            if (Components.Length != vector.Components.Length)
             {
                 return false;
             }
 
-            for (int i = 0; i < VectorComponents.Length; i++)
+            for (int i = 0; i < Components.Length; i++)
             {
-                if (VectorComponents[i] != vector.VectorComponents[i])
+                if (Components[i] != vector.Components[i])
                 {
                     return false;
                 }
@@ -264,9 +256,9 @@ namespace CSharpOop.Vector
             int prime = 37;
             int hash = 1;
 
-            for (int i = 0; i < VectorComponents.Length; i++)
+            foreach (double e in Components)
             {
-                hash = prime * hash + VectorComponents[i].GetHashCode();
+                hash = prime * hash + e.GetHashCode();
             }
 
             return hash;
