@@ -24,8 +24,45 @@ namespace CSharpOop.ArrayListHome
                         stringsFromFile.Add(currentFileLine);
                     }
                 }
+
+                foreach (string s in stringsFromFile)
+                {
+                    Console.WriteLine(s);
+                }
             }
             catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (DirectoryNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (DriveNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (PathTooLongException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (OperationCanceledException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (ArgumentException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (NotSupportedException e)
             {
                 Console.WriteLine(e.Message);
             }
@@ -44,7 +81,7 @@ namespace CSharpOop.ArrayListHome
             Console.WriteLine("Список без четных чисел: " + string.Join(", ", numbers1));
 
             List<int> numbers2 = new List<int> { 1, 1, 1, 1, 6, 5, 5, 4, 3, 9, 11, 5, 1, 1, 1, 5, 1, 1, 1 };
-            List<int> noRepeatingNumbersList = new List<int>(10);
+            List<int> noRepeatingNumbersList = new List<int>(numbers2.Count);
 
             foreach (int e in numbers2)
             {
