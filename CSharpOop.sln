@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.Vector", "CSharpO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ArrayListHome", "CSharpOop.ArrayListHome\CSharpOop.ArrayListHome.csproj", "{A5E8D498-174B-4715-9FD3-DFDF72ADDC3A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ListTask", "CSharpOop.ListTask\CSharpOop.ListTask.csproj", "{1934F546-FA9E-452B-BB87-37CD215B0B4C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A5E8D498-174B-4715-9FD3-DFDF72ADDC3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5E8D498-174B-4715-9FD3-DFDF72ADDC3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5E8D498-174B-4715-9FD3-DFDF72ADDC3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
