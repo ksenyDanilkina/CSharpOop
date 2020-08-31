@@ -19,10 +19,10 @@ namespace CSharpOop.Vector
             Vector vector8 = new Vector(1, array1);
 
             Console.WriteLine("Размер вектора 4: " + vector4.GetSize());
-            Console.WriteLine("Сумма векторов 3 и 4: " + vector3.Addition(vector4));
-            Console.WriteLine("Разность веткоров 5 и 1: " + vector5.Subtraction(vector1));
-            Console.WriteLine("Произведение вектора 2 на скаляр = 5.0: " + vector2.Multiplication(5));
-            Console.WriteLine("Разворот вектора 6: " + vector6.GetRevert());
+            Console.WriteLine("Сумма векторов 3 и 4: " + vector3.Add(vector4));
+            Console.WriteLine("Разность веткоров 5 и 1: " + vector5.Subtract(vector1));
+            Console.WriteLine("Произведение вектора 2 на скаляр = 5.0: " + vector2.Multiply(5));
+            Console.WriteLine("Разворот вектора 6: " + vector6.Revert());
             Console.WriteLine("Длина вектора 6: " + vector6.GetLength());
 
             vector1.SetComponent(4, 4.77);
