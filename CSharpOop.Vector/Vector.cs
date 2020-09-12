@@ -57,9 +57,9 @@ namespace CSharpOop.Vector
 
             stringBuilder.Append("{ ");
 
-            for (int i = 0; i < components.Length; i++)
+            foreach (double e in components)
             {
-                stringBuilder.Append(components[i]).Append(", ");
+                stringBuilder.Append(e).Append(", ");
             }
 
             return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append(" }").ToString();
@@ -134,24 +134,23 @@ namespace CSharpOop.Vector
 
         public static Vector GetAddition(Vector vector1, Vector vector2)
         {
-            return vector1.Add(vector2);
+            Vector vectorForAddition = new Vector(vector1);
+
+            return vectorForAddition.Add(vector2);
         }
 
         public static Vector GetSubtraction(Vector vector1, Vector vector2)
         {
-            return vector1.Subtract(vector2);
+            Vector vectorForSubtraction = new Vector(vector1);
+
+            return vectorForSubtraction.Subtract(vector2);
         }
 
         public static double GetScalarMultiplication(Vector vector1, Vector vector2)
         {
-            if (vector2.components.Length < vector1.components.Length)
-            {
-                Array.Resize(ref vector2.components, vector1.components.Length);
-            }
-
             double scalarMultiplicationResult = 0;
 
-            for (int i = 0; i < vector1.components.Length; i++)
+            for (int i = 0; i < Math.Min(vector1.components.Length, vector2.components.Length); i++)
             {
                 scalarMultiplicationResult += vector1.components[i] * vector2.components[i];
             }
