@@ -15,14 +15,14 @@ namespace CSharpOop.ListTask
             list.AddFirst(9);
             list.AddFirst(0);
 
-            list.AddByIndex(1, 55);
+            list.AddByIndex(4, 55);
 
-            Console.WriteLine("Размер списка: " + list.GetSize());
-            Console.WriteLine("Удаленный первый элемент: " + list.GetRemovedFirstElement());
+            Console.WriteLine("Размер списка: " + list.Count);
+            Console.WriteLine("Удаленный первый элемент: " + list.RemoveFirstElement());
             Console.WriteLine("Значение первого элемента: " + list.GetFirstElementData());
             Console.WriteLine("Измененный элемент: " + list.GetChangedElementData(3, 50));
-            Console.WriteLine("Удаленный элемент: " + list.GetRemovedElementData(2));
-            Console.WriteLine("Элемент удален: " + list.IsRemoved(2));
+            Console.WriteLine("Удаленный элемент: " + list.RemoveElementByIndex(2));
+            Console.WriteLine("Элемент удален: " + list.RemoveElementByData(0));
 
             list.Revert();
             Console.WriteLine("Перевернутый список: " + PrintList(list));
@@ -35,9 +35,9 @@ namespace CSharpOop.ListTask
         {
             StringBuilder resultString = new StringBuilder();
 
-            for (int i = 0; i < list.GetSize(); i++)
+            for (int i = 0; i < list.Count; i++)
             {
-                if (i < list.GetSize() - 1)
+                if (i < list.Count - 1)
                 {
                     resultString.Append(list.GetElementData(i)).Append(", ");
                 }

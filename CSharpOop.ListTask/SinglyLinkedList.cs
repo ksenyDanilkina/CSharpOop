@@ -5,31 +5,36 @@ namespace CSharpOop.ListTask
     class SinglyLinkedList<T>
     {
         private ListItem<T> head;
-        private int count;
 
-        public int GetSize()
-        {
-            return count;
-        }
+        public int Count { get; private set; }
 
         public T GetFirstElementData()
         {
+            if (Count == 0)
+            {
+                throw new InvalidOperationException("Список пуст");
+            }
+
             return head.Data;
         }
 
         public void AddFirst(T data)
         {
-            ListItem<T> listItem = new ListItem<T>(data, head);
-            head = listItem;
+            head = new ListItem<T>(data, head);
 
-            count++;
+            Count++;
         }
 
-        public T GetRemovedFirstElement()
+        public T RemoveFirstElement()
         {
+            if (Count == 0)
+            {
+                throw new InvalidOperationException("Список пуст");
+            }
+
             T removedElement = head.Data;
             head = head.Next;
-            count--;
+            Count--;
 
             return removedElement;
         }
@@ -38,47 +43,42 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentException("index не может быть отрицательным", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
-            if (index > count - 1)
+            if (index >= Count)
             {
-                throw new ArgumentException("index выходит за границы списка", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
-            if (index == 0)
-            {
-                return head.Data;
-            }
-
-            ListItem<T> currentElement = head;
-
-            for (int i = 0; i < index; i++)
-            {
-                currentElement = currentElement.Next;
-            }
+            ListItem<T> currentElement = GetElementByIndex(head, index);
 
             return currentElement.Data;
         }
 
+        private ListItem<T> GetElementByIndex(ListItem<T> item, int index)
+        {
+            for (int i = 0; i < index; i++)
+            {
+                item = item.Next;
+            }
+
+            return item;
+        }
         public T GetChangedElementData(int index, T data)
         {
             if (index < 0)
             {
-                throw new ArgumentException("index не может быть отрицательным", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
-            if (index > count - 1)
+            if (index >= Count)
             {
-                throw new ArgumentException("index выходит за границы списка", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
-            ListItem<T> currentElement = head;
 
-            for (int i = 0; i < index; i++)
-            {
-                currentElement = currentElement.Next;
-            }
+            ListItem<T> currentElement = GetElementByIndex(head, index);
 
             T changedElementData = currentElement.Data;
             currentElement.Data = data;
@@ -86,33 +86,28 @@ namespace CSharpOop.ListTask
             return changedElementData;
         }
 
-        public T GetRemovedElementData(int index)
+        public T RemoveElementByIndex(int index)
         {
             if (index < 0)
             {
-                throw new ArgumentException("index не может быть отрицательным", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
-            if (index > count - 1)
+            if (index >= Count)
             {
-                throw new ArgumentException("index выходит за границы списка", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
             if (index == 0)
             {
-                return GetRemovedFirstElement();
+                return RemoveFirstElement();
             }
 
-            ListItem<T> currentElement = head;
-
-            for (int i = 0; i < index - 1; i++)
-            {
-                currentElement = currentElement.Next;
-            }
+            ListItem<T> currentElement = GetElementByIndex(head, index - 1);
 
             T removedElementData = currentElement.Next.Data;
             currentElement.Next = currentElement.Next.Next;
-            count--;
+            Count--;
 
             return removedElementData;
         }
@@ -121,12 +116,12 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentException("index не может быть отрицательным", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
-            if (index > count - 1)
+            if (index > Count)
             {
-                throw new ArgumentException("index выходит за границы списка", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
             if (index == 0)
@@ -135,33 +130,28 @@ namespace CSharpOop.ListTask
             }
             else
             {
-                ListItem<T> currentElement = head;
-
-                for (int i = 0; i < index - 1; i++)
-                {
-                    currentElement = currentElement.Next;
-                }
+                ListItem<T> currentElement = GetElementByIndex(head, index - 1);
 
                 ListItem<T> elementForAdd = new ListItem<T>(data, currentElement.Next);
                 currentElement.Next = elementForAdd;
-                count++;
+                Count++;
             }
         }
 
-        public bool IsRemoved(T data)
+        public bool RemoveElementByData(T data)
         {
             for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
             {
-                if (p.Data.Equals(data))
+                if (p.Data != null && p.Data.Equals(data))
                 {
                     if (prev == null)
                     {
-                        GetRemovedFirstElement();
+                        RemoveFirstElement();
                     }
                     else
                     {
                         prev.Next = p.Next;
-                        count--;
+                        Count--;
                     }
 
                     return true;
@@ -192,10 +182,8 @@ namespace CSharpOop.ListTask
 
             for (ListItem<T> p = head; p != null; p = p.Next)
             {
-                copiedList.AddFirst(p.Data);
+                copiedList.AddByIndex(copiedList.Count, p.Data);
             }
-
-            copiedList.Revert();
 
             return copiedList;
         }
