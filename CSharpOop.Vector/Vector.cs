@@ -11,7 +11,7 @@ namespace CSharpOop.Vector
         {
             if (dimension <= 0)
             {
-                throw new ArgumentException("dimension должно быть больше 0.", nameof(dimension));
+                throw new ArgumentException("Dimension = " + dimension + ". Dimension должно быть больше 0.", nameof(dimension));
             }
 
             components = new double[dimension];
@@ -27,7 +27,7 @@ namespace CSharpOop.Vector
         {
             if (components.Length == 0)
             {
-                throw new ArgumentException("components.Length должно быть больше 0.", nameof(components.Length));
+                throw new ArgumentException("Components.Length = " + components.Length + ". Components.Length должно быть больше 0.", nameof(components.Length));
             }
 
             this.components = new double[components.Length];
@@ -38,7 +38,7 @@ namespace CSharpOop.Vector
         {
             if (dimension <= 0)
             {
-                throw new ArgumentException("dimension должно быть больше 0.", nameof(dimension));
+                throw new ArgumentException("Dimension = " + dimension + ".Dimension должно быть больше 0.", nameof(dimension));
             }
 
             this.components = new double[dimension];
@@ -149,8 +149,9 @@ namespace CSharpOop.Vector
         public static double GetScalarMultiplication(Vector vector1, Vector vector2)
         {
             double scalarMultiplicationResult = 0;
+            int minVectorLength = Math.Min(vector1.components.Length, vector2.components.Length);
 
-            for (int i = 0; i < Math.Min(vector1.components.Length, vector2.components.Length); i++)
+            for (int i = 0; i < minVectorLength; i++)
             {
                 scalarMultiplicationResult += vector1.components[i] * vector2.components[i];
             }
