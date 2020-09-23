@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ArrayListHome", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ListTask", "CSharpOop.ListTask\CSharpOop.ListTask.csproj", "{1934F546-FA9E-452B-BB87-37CD215B0B4C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ArrayList", "CSharpOop.ArrayLIst\CSharpOop.ArrayList.csproj", "{BEA878EB-3080-4FB0-BFF2-457F7B8A04AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.LambdaFunction", "CSharpOop.LambdaFunction\CSharpOop.LambdaFunction.csproj", "{191C41E5-931F-4172-A827-4FEB033D11C8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +43,14 @@ Global
 		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1934F546-FA9E-452B-BB87-37CD215B0B4C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEA878EB-3080-4FB0-BFF2-457F7B8A04AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEA878EB-3080-4FB0-BFF2-457F7B8A04AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEA878EB-3080-4FB0-BFF2-457F7B8A04AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEA878EB-3080-4FB0-BFF2-457F7B8A04AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{191C41E5-931F-4172-A827-4FEB033D11C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{191C41E5-931F-4172-A827-4FEB033D11C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{191C41E5-931F-4172-A827-4FEB033D11C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{191C41E5-931F-4172-A827-4FEB033D11C8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
