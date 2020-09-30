@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.ArrayList", "CSha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.LambdaFunction", "CSharpOop.LambdaFunction\CSharpOop.LambdaFunction.csproj", "{191C41E5-931F-4172-A827-4FEB033D11C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.Csv", "CSharpOop.Csv\CSharpOop.Csv.csproj", "{F83ABBC9-D72F-46F4-8A17-BAAC3C82296A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{191C41E5-931F-4172-A827-4FEB033D11C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{191C41E5-931F-4172-A827-4FEB033D11C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{191C41E5-931F-4172-A827-4FEB033D11C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F83ABBC9-D72F-46F4-8A17-BAAC3C82296A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F83ABBC9-D72F-46F4-8A17-BAAC3C82296A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F83ABBC9-D72F-46F4-8A17-BAAC3C82296A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F83ABBC9-D72F-46F4-8A17-BAAC3C82296A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
