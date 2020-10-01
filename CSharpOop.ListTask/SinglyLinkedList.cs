@@ -68,6 +68,7 @@ namespace CSharpOop.ListTask
 
             return item;
         }
+
         public T SetElementData(int index, T data)
         {
             if (index < 0)
@@ -79,7 +80,6 @@ namespace CSharpOop.ListTask
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
-
 
             ListItem<T> currentElement = GetElementByIndex(index);
 
@@ -223,6 +223,5 @@ namespace CSharpOop.ListTask
 
             return resultString.ToString();
         }
-
     }
 }
