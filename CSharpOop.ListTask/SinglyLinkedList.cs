@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace CSharpOop.ListTask
 {
@@ -51,13 +52,15 @@ namespace CSharpOop.ListTask
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
-            ListItem<T> currentElement = GetElementByIndex(head, index);
+            ListItem<T> currentElement = GetElementByIndex(index);
 
             return currentElement.Data;
         }
 
-        private ListItem<T> GetElementByIndex(ListItem<T> item, int index)
+        private ListItem<T> GetElementByIndex(int index)
         {
+            ListItem<T> item = head;
+
             for (int i = 0; i < index; i++)
             {
                 item = item.Next;
@@ -65,7 +68,7 @@ namespace CSharpOop.ListTask
 
             return item;
         }
-        public T GetChangedElementData(int index, T data)
+        public T SetElementData(int index, T data)
         {
             if (index < 0)
             {
@@ -78,7 +81,7 @@ namespace CSharpOop.ListTask
             }
 
 
-            ListItem<T> currentElement = GetElementByIndex(head, index);
+            ListItem<T> currentElement = GetElementByIndex(index);
 
             T changedElementData = currentElement.Data;
             currentElement.Data = data;
@@ -103,7 +106,7 @@ namespace CSharpOop.ListTask
                 return RemoveFirstElement();
             }
 
-            ListItem<T> currentElement = GetElementByIndex(head, index - 1);
+            ListItem<T> currentElement = GetElementByIndex(index - 1);
 
             T removedElementData = currentElement.Next.Data;
             currentElement.Next = currentElement.Next.Next;
@@ -130,7 +133,7 @@ namespace CSharpOop.ListTask
             }
             else
             {
-                ListItem<T> currentElement = GetElementByIndex(head, index - 1);
+                ListItem<T> currentElement = GetElementByIndex(index - 1);
 
                 ListItem<T> elementForAdd = new ListItem<T>(data, currentElement.Next);
                 currentElement.Next = elementForAdd;
@@ -142,7 +145,7 @@ namespace CSharpOop.ListTask
         {
             for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
             {
-                if (p.Data != null && p.Data.Equals(data))
+                if (Equals(p.Data, data))
                 {
                     if (prev == null)
                     {
@@ -179,13 +182,47 @@ namespace CSharpOop.ListTask
         public SinglyLinkedList<T> GetCopy()
         {
             SinglyLinkedList<T> copiedList = new SinglyLinkedList<T>();
+            ListItem<T> lastItem = null;
 
             for (ListItem<T> p = head; p != null; p = p.Next)
             {
-                copiedList.AddByIndex(copiedList.Count, p.Data);
+                ListItem<T> itemForAddInCopyList = new ListItem<T>(p.Data);
+
+                if (copiedList.head == null)
+                {
+                    copiedList.head = itemForAddInCopyList;
+                }
+                else
+                {
+                    lastItem.Next = itemForAddInCopyList;
+                }
+
+                lastItem = itemForAddInCopyList;
+
+                copiedList.Count++;
             }
 
             return copiedList;
         }
+
+        public override string ToString()
+        {
+            StringBuilder resultString = new StringBuilder();
+
+            for (int i = 0; i < Count; i++)
+            {
+                if (i < Count - 1)
+                {
+                    resultString.Append(GetElementData(i)).Append(", ");
+                }
+                else
+                {
+                    resultString.Append(GetElementData(i));
+                }
+            }
+
+            return resultString.ToString();
+        }
+
     }
 }
