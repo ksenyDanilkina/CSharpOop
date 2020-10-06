@@ -9,19 +9,14 @@ namespace CSharpOop.LambdaFunction
     {
         static void Main(string[] args)
         {
-            Person person1 = new Person("Иван", 25);
-            Person person2 = new Person("Ирина", 44);
-            Person person3 = new Person("Ирина", 66);
-            Person person4 = new Person("Алексей", 44);
-            Person person5 = new Person("Игнат", 15);
+            var persons = new List<Person> { new Person("Иван", 25), new Person("Ирина", 44),
+                new Person("Ирина", 25),  new Person("Алексей", 44), new Person("Игнат", 15) };
 
-            List<Person> persons = new List<Person> { person1, person2, person3, person4, person5 };
+            var uniqueNames = persons.Select(p => p.Name).Distinct().ToList();
 
-            string uniqueNames = string.Join(", ", persons.Select(person => person.GetName()).Distinct().ToList());
+            Console.WriteLine("Имена: " + string.Join(", ", uniqueNames));
 
-            Console.WriteLine("Имена: " + uniqueNames);
-
-            List<Person> peopleUnder18 = persons.Where(person => person.GetAge() < 18).ToList();           
+            var peopleUnder18 = persons.Where(p => p.Age < 18).ToList();
 
             if (peopleUnder18.Count == 0)
             {
@@ -29,28 +24,27 @@ namespace CSharpOop.LambdaFunction
             }
             else
             {
-                double averageAge = peopleUnder18.Select(person => person.GetAge()).Average();
+                var averageAge = peopleUnder18.Select(p => p.Age).Average();
 
                 Console.WriteLine("Средний возраст людей младше 18: " + averageAge);
-            }                  
+            }
 
-            Dictionary<string, double> groupedPersons = persons.GroupBy(person => person.GetName()).
-                ToDictionary(name => name.Key, age => age.Select(person => person.GetAge()).ToList().Average());
+            var groupedByAverageAgePersons = persons.GroupBy(p => p.Name)
+                .ToDictionary(p => p.Key, p => p.Select(x => x.Age).Average());
 
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
 
-            foreach (KeyValuePair<string, double> keyValue in groupedPersons)
-            {               
-                stringBuilder.Append(keyValue.Key).Append(" - ").Append(keyValue.Value).AppendLine();
+            foreach (var keyValuePair in groupedByAverageAgePersons)
+            {
+                stringBuilder.Append(keyValuePair.Key).Append(" - ").Append(keyValuePair.Value).AppendLine();
             }
 
             Console.WriteLine(stringBuilder);
 
-            List<string> personsNamesFrom20To45Age = persons.Where(person => (person.GetAge() >= 20 && person.GetAge() <= 45)).
-                OrderByDescending(person => person.GetAge()).ThenBy(person => person, new PersonAgeComparer()).
-                Select(person => person.GetName()).ToList();
+            var personsFrom20To45Age = persons.Where(p => (p.Age >= 20 && p.Age <= 45))
+                .OrderByDescending(p => p.Age).ThenBy(p => p.Name);
 
-            Console.WriteLine("Имена людей в возрасте от 20 до 45 лет: " + string.Join(", ", personsNamesFrom20To45Age));
+            Console.WriteLine("Имена людей в возрасте от 20 до 45 лет: " + string.Join("; ", personsFrom20To45Age));
         }
     }
 }

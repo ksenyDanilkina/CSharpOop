@@ -1,24 +1,21 @@
-﻿namespace CSharpOop.LambdaFunction
+﻿using System.Text;
+
+namespace CSharpOop.LambdaFunction
 {
     class Person
     {
-        private string name;
-        private int age;
+        public string Name { get; }
+        public int Age { get; }
 
-        public string GetName()
-        {
-            return name;
-        }
-
-        public int GetAge()
-        {
-            return age;
-        }
-        
         public Person(string name, int age)
-        {            
-            this.name = name;
-            this.age = age;
+        {
+            Name = name;
+            Age = age;
+        }
+
+        public override string ToString()
+        {
+            return "Имя: " + Name + ", Возраст: " + Age ;
         }
     }
 }
