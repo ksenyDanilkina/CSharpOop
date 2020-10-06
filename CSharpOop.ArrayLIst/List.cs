@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 
 namespace CSharpOop.ArrayLIst
 {
@@ -11,20 +12,27 @@ namespace CSharpOop.ArrayLIst
 
         public int Count { get; private set; }
 
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
+        public bool IsReadOnly => false;
 
         public T this[int index]
         {
             get
             {
+                if (index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
+                }
+
                 return items[index];
             }
 
             set
             {
+                if (index >= Count)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(value), "Index = " + index + ". Index должен быть <= " + Count);
+                }
+
                 items[index] = value;
             }
         }
@@ -40,16 +48,18 @@ namespace CSharpOop.ArrayLIst
             {
                 if (value < Count)
                 {
-                    throw new ArgumentOutOfRangeException("Вместимость меньше Count", nameof(value));
+                    throw new ArgumentOutOfRangeException(nameof(value), "Вместимость меньше Count");
                 }
 
-                items = new T[value];
+                Array.Resize(ref items, value);
             }
         }
 
         public List()
         {
-            Capacity = 4;
+            const int startCapacity = 4;
+
+            Capacity = startCapacity;
         }
 
         public List(int capacity)
@@ -59,11 +69,6 @@ namespace CSharpOop.ArrayLIst
 
         public void Add(T item)
         {
-            if (IsReadOnly)
-            {
-                throw new NotSupportedException("Список досупен только для чтения");
-            }
-
             if (Count >= items.Length)
             {
                 IncreaseCapacity();
@@ -88,28 +93,23 @@ namespace CSharpOop.ArrayLIst
                 Capacity = oldItems.Length * 2;
             }
 
-            Array.Copy(oldItems, 0, items, 0, oldItems.Length);
+            modCount++;
         }
 
         public void RemoveAt(int index)
         {
-            if (IsReadOnly)
-            {
-                throw new NotSupportedException("Список досупен только для чтения");
-            }
-
             if (index < 0)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
-            if (index > Count)
+            if (index >= Count)
             {
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
             }
 
             Array.Copy(items, index + 1, items, index, Count - index - 1);
-
+            
             Count--;
             modCount++;
         }
@@ -136,11 +136,6 @@ namespace CSharpOop.ArrayLIst
 
         public void Clear()
         {
-            if (IsReadOnly)
-            {
-                throw new NotSupportedException("Список досупен только для чтения");
-            }
-
             if (Count > 0)
             {
                 Array.Clear(items, 0, Count);
@@ -151,41 +146,26 @@ namespace CSharpOop.ArrayLIst
 
         public bool Contains(T item)
         {
-            foreach (T e in this)
+            if (IndexOf(item) == -1)
             {
-                if (item != null && item.Equals(e))
-                {
-                    return true;
-                }
+                return false;
             }
 
-            return false;
+            return true;
         }
 
         public bool Remove(T item)
         {
-            if (IsReadOnly)
+            if (IndexOf(item) == -1)
             {
-                throw new NotSupportedException("Список досупен только для чтения");
+                return false;
             }
 
-            for (int i = 0; i < Count; i++)
-            {
-                if (item != null && item.Equals(items[i]))
-                {
-                    if (i < Count - 1)
-                    {
-                        Array.Copy(items, i + 1, items, i, Count - i - 1);
-                    }
+            RemoveAt(IndexOf(item));
 
-                    Count--;
-                    modCount++;
+            Array.Clear(items, Count, 1);
 
-                    return true;
-                }
-            }
-
-            return false;
+            return true;
         }
 
         public void CopyTo(T[] array, int arrayIndex)
@@ -217,7 +197,7 @@ namespace CSharpOop.ArrayLIst
         {
             for (int i = 0; i < Count; i++)
             {
-                if (item != null && item.Equals(items[i]))
+                if (Equals(item, items[i]))
                 {
                     return i;
                 }
@@ -238,11 +218,6 @@ namespace CSharpOop.ArrayLIst
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
             }
 
-            if (IsReadOnly)
-            {
-                throw new NotSupportedException("Список досупен только для чтения");
-            }
-
             if (Count >= items.Length)
             {
                 IncreaseCapacity();
@@ -261,6 +236,23 @@ namespace CSharpOop.ArrayLIst
             {
                 Capacity = Count;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            if (Count == 0)
+            {
+                return stringBuilder.ToString();
+            }
+
+            foreach (T e in this)
+            {
+                stringBuilder.Append(e).Append(", ");
+            }
+
+            return stringBuilder.Remove(stringBuilder.Length - 2, 1).ToString();
         }
     }
 }
