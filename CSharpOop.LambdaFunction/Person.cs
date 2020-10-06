@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace CSharpOop.LambdaFunction
+﻿namespace CSharpOop.LambdaFunction
 {
     class Person
     {
