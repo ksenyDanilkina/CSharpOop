@@ -15,7 +15,7 @@ namespace CSharpOop.LambdaFunction
 
         public override string ToString()
         {
-            return "Имя: " + Name + ", Возраст: " + Age ;
+            return "Имя: " + Name + ", возраст: " + Age ;
         }
     }
 }
