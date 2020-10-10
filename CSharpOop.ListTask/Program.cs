@@ -17,17 +17,17 @@ namespace CSharpOop.ListTask
             list.AddByIndex(4, 55);
 
             Console.WriteLine("Размер списка: " + list.Count);
-            Console.WriteLine("Удаленный первый элемент: " + list.RemoveFirstElement());
-            Console.WriteLine("Значение первого элемента: " + list.GetFirstElementData());
-            Console.WriteLine("Измененный элемент: " + list.SetElementData(3, 50));
-            Console.WriteLine("Удаленный элемент: " + list.RemoveElementByIndex(2));
-            Console.WriteLine("Элемент удален: " + list.RemoveElementByData(0));
+            Console.WriteLine("Удаленный первый элемент: " + list.RemoveFirst());
+            Console.WriteLine("Значение первого элемента: " + list.GetFirst());
+            Console.WriteLine("Измененный элемент: " + list.SetItemData(3, 50));
+            Console.WriteLine("Удаленный элемент: " + list.RemoveByIndex(2));
+            Console.WriteLine("Элемент удален: " + list.RemoveByData(0));
 
             list.Revert();
             Console.WriteLine("Перевернутый список: " + list);
 
             SinglyLinkedList<int> copyList = list.GetCopy();
-            Console.WriteLine("Копия списка: " + copyList);            
+            Console.WriteLine("Копия списка: " + copyList);
         }
     }
 }

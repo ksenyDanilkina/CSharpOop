@@ -9,7 +9,7 @@ namespace CSharpOop.ListTask
 
         public int Count { get; private set; }
 
-        public T GetFirstElementData()
+        public T GetFirst()
         {
             if (Count == 0)
             {
@@ -26,21 +26,21 @@ namespace CSharpOop.ListTask
             Count++;
         }
 
-        public T RemoveFirstElement()
+        public T RemoveFirst()
         {
             if (Count == 0)
             {
                 throw new InvalidOperationException("Список пуст");
             }
 
-            T removedElement = head.Data;
+            T removedData = head.Data;
             head = head.Next;
             Count--;
 
-            return removedElement;
+            return removedData;
         }
 
-        public T GetElementData(int index)
+        public T GetData(int index)
         {
             if (index < 0)
             {
@@ -52,12 +52,12 @@ namespace CSharpOop.ListTask
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
-            ListItem<T> currentElement = GetElementByIndex(index);
+            ListItem<T> currentItem = GetItemByIndex(index);
 
-            return currentElement.Data;
+            return currentItem.Data;
         }
 
-        private ListItem<T> GetElementByIndex(int index)
+        private ListItem<T> GetItemByIndex(int index)
         {
             ListItem<T> item = head;
 
@@ -69,7 +69,7 @@ namespace CSharpOop.ListTask
             return item;
         }
 
-        public T SetElementData(int index, T data)
+        public T SetItemData(int index, T data)
         {
             if (index < 0)
             {
@@ -81,15 +81,15 @@ namespace CSharpOop.ListTask
                 throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
-            ListItem<T> currentElement = GetElementByIndex(index);
+            ListItem<T> currentItem = GetItemByIndex(index);
 
-            T changedElementData = currentElement.Data;
-            currentElement.Data = data;
+            T changedData = currentItem.Data;
+            currentItem.Data = data;
 
-            return changedElementData;
+            return changedData;
         }
 
-        public T RemoveElementByIndex(int index)
+        public T RemoveByIndex(int index)
         {
             if (index < 0)
             {
@@ -103,16 +103,16 @@ namespace CSharpOop.ListTask
 
             if (index == 0)
             {
-                return RemoveFirstElement();
+                return RemoveFirst();
             }
 
-            ListItem<T> currentElement = GetElementByIndex(index - 1);
+            ListItem<T> currentItem = GetItemByIndex(index - 1);
 
-            T removedElementData = currentElement.Next.Data;
-            currentElement.Next = currentElement.Next.Next;
+            T removedData = currentItem.Next.Data;
+            currentItem.Next = currentItem.Next.Next;
             Count--;
 
-            return removedElementData;
+            return removedData;
         }
 
         public void AddByIndex(int index, T data)
@@ -124,7 +124,7 @@ namespace CSharpOop.ListTask
 
             if (index > Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
             }
 
             if (index == 0)
@@ -133,15 +133,15 @@ namespace CSharpOop.ListTask
             }
             else
             {
-                ListItem<T> currentElement = GetElementByIndex(index - 1);
+                ListItem<T> currentItem = GetItemByIndex(index - 1);
 
-                ListItem<T> elementForAdd = new ListItem<T>(data, currentElement.Next);
-                currentElement.Next = elementForAdd;
+                ListItem<T> itemForAdd = new ListItem<T>(data, currentItem.Next);
+                currentItem.Next = itemForAdd;
                 Count++;
             }
         }
 
-        public bool RemoveElementByData(T data)
+        public bool RemoveByData(T data)
         {
             for (ListItem<T> p = head, prev = null; p != null; prev = p, p = p.Next)
             {
@@ -149,7 +149,7 @@ namespace CSharpOop.ListTask
                 {
                     if (prev == null)
                     {
-                        RemoveFirstElement();
+                        RemoveFirst();
                     }
                     else
                     {
@@ -166,23 +166,25 @@ namespace CSharpOop.ListTask
 
         public void Revert()
         {
-            ListItem<T> previousElement = null;
+            ListItem<T> previousItem = null;
 
             for (ListItem<T> p = head; p != null;)
             {
-                ListItem<T> nextElement = p.Next;
-                p.Next = previousElement;
-                previousElement = p;
-                p = nextElement;
+                ListItem<T> nextItem = p.Next;
+                p.Next = previousItem;
+                previousItem = p;
+                p = nextItem;
             }
 
-            head = previousElement;
+            head = previousItem;
         }
 
         public SinglyLinkedList<T> GetCopy()
         {
             SinglyLinkedList<T> copiedList = new SinglyLinkedList<T>();
             ListItem<T> lastItem = null;
+
+            copiedList.Count = Count;
 
             for (ListItem<T> p = head; p != null; p = p.Next)
             {
@@ -198,8 +200,6 @@ namespace CSharpOop.ListTask
                 }
 
                 lastItem = itemForAddInCopyList;
-
-                copiedList.Count++;
             }
 
             return copiedList;
@@ -207,21 +207,16 @@ namespace CSharpOop.ListTask
 
         public override string ToString()
         {
-            StringBuilder resultString = new StringBuilder();
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("[ ");
 
             for (int i = 0; i < Count; i++)
             {
-                if (i < Count - 1)
-                {
-                    resultString.Append(GetElementData(i)).Append(", ");
-                }
-                else
-                {
-                    resultString.Append(GetElementData(i));
-                }
+                stringBuilder.Append(GetData(i)).Append(", ");
             }
 
-            return resultString.ToString();
+            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append(" ]").ToString();
         }
     }
 }
