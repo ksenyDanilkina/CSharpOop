@@ -57,19 +57,7 @@ namespace CSharpOop.ListTask
             return currentItem.Data;
         }
 
-        private ListItem<T> GetItemByIndex(int index)
-        {
-            ListItem<T> item = head;
-
-            for (int i = 0; i < index; i++)
-            {
-                item = item.Next;
-            }
-
-            return item;
-        }
-
-        public T SetItemData(int index, T data)
+        public T SetData(int index, T data)
         {
             if (index < 0)
             {
@@ -87,6 +75,18 @@ namespace CSharpOop.ListTask
             currentItem.Data = data;
 
             return changedData;
+        }
+
+        private ListItem<T> GetItemByIndex(int index)
+        {
+            ListItem<T> item = head;
+
+            for (int i = 0; i < index; i++)
+            {
+                item = item.Next;
+            }
+
+            return item;
         }
 
         public T RemoveByIndex(int index)
@@ -211,12 +211,12 @@ namespace CSharpOop.ListTask
 
             stringBuilder.Append("[ ");
 
-            for (int i = 0; i < Count; i++)
+            for (ListItem<T> p = head; p != null; p = p.Next)
             {
-                stringBuilder.Append(GetData(i)).Append(", ");
+                stringBuilder.Append(" ").Append(p.Data).Append(",");
             }
 
-            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append(" ]").ToString();
+            return stringBuilder.Remove(stringBuilder.Length - 1, 1).Append(" ]").ToString();
         }
     }
 }

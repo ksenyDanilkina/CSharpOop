@@ -19,7 +19,7 @@ namespace CSharpOop.ListTask
             Console.WriteLine("Размер списка: " + list.Count);
             Console.WriteLine("Удаленный первый элемент: " + list.RemoveFirst());
             Console.WriteLine("Значение первого элемента: " + list.GetFirst());
-            Console.WriteLine("Измененный элемент: " + list.SetItemData(3, 50));
+            Console.WriteLine("Измененный элемент: " + list.SetData(3, 50));
             Console.WriteLine("Удаленный элемент: " + list.RemoveByIndex(2));
             Console.WriteLine("Элемент удален: " + list.RemoveByData(0));
 
@@ -27,7 +27,7 @@ namespace CSharpOop.ListTask
             Console.WriteLine("Перевернутый список: " + list);
 
             SinglyLinkedList<int> copyList = list.GetCopy();
-            Console.WriteLine("Копия списка: " + copyList);
+            Console.WriteLine("Копия списка: " + copyList);           
         }
     }
 }
