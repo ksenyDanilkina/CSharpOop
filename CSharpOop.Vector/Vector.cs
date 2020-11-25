@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace CSharpOop.Vector
+namespace CSharpOop.VectorTask
 {
     class Vector
     {

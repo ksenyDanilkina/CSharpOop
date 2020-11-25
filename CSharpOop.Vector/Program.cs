@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CSharpOop.Vector
+namespace CSharpOop.VectorTask
 {
     class Program
     {
