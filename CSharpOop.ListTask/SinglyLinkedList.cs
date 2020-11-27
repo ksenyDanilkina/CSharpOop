@@ -44,7 +44,7 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= Count)
@@ -61,7 +61,7 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= Count)
@@ -93,7 +93,7 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= Count)
@@ -119,7 +119,7 @@ namespace CSharpOop.ListTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index > Count)
@@ -207,16 +207,21 @@ namespace CSharpOop.ListTask
 
         public override string ToString()
         {
+            if (Count == 0)
+            {
+                return "[]";
+            }
+
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("[ ");
+            stringBuilder.Append("[");
 
             for (ListItem<T> p = head; p != null; p = p.Next)
             {
-                stringBuilder.Append(" ").Append(p.Data).Append(",");
+                stringBuilder.Append(p.Data).Append(", ");
             }
 
-            return stringBuilder.Remove(stringBuilder.Length - 1, 1).Append(" ]").ToString();
+            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append("]").ToString();
         }
     }
 }
