@@ -349,12 +349,7 @@ namespace CSharpOop.MatrixTask
             {
                 for (int j = 0; j < matrix2.GetHorizontalSize(); j++)
                 {
-                    double component = 0;
-
-                    for (int k = 0; k < matrix1.GetHorizontalSize(); k++)
-                    {
-                        component += matrix1.rows[i].GetComponent(k) * matrix2.rows[k].GetComponent(j);
-                    }
+                    double component = Vector.GetScalarMultiplication(matrix1.rows[i], matrix2.GetVectorColumn(j));
 
                     resultMatrix.rows[i].SetComponent(j, component);
                 }
