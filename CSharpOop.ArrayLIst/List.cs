@@ -5,10 +5,11 @@ using System.Text;
 
 namespace CSharpOop.ArrayLIst
 {
-    class List<T> : IList<T>, IEnumerable
+    class List<T> : IList<T>
     {
         private T[] items;
         private int modCount;
+        private const int startCapacity = 4;
 
         public int Count { get; private set; }
 
@@ -23,6 +24,11 @@ namespace CSharpOop.ArrayLIst
                     throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
                 }
 
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                }
+
                 return items[index];
             }
 
@@ -31,6 +37,11 @@ namespace CSharpOop.ArrayLIst
                 if (index >= Count)
                 {
                     throw new ArgumentOutOfRangeException(nameof(value), "Index = " + index + ". Index должен быть <= " + Count);
+                }
+
+                if (index < 0)
+                {
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
                 }
 
                 items[index] = value;
@@ -48,7 +59,7 @@ namespace CSharpOop.ArrayLIst
             {
                 if (value < Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Вместимость меньше Count");
+                    throw new ArgumentOutOfRangeException(nameof(value), "Вместимость = " + value + " меньше Count = " + Count);
                 }
 
                 Array.Resize(ref items, value);
@@ -57,8 +68,6 @@ namespace CSharpOop.ArrayLIst
 
         public List()
         {
-            const int startCapacity = 4;
-
             Capacity = startCapacity;
         }
 
@@ -82,15 +91,13 @@ namespace CSharpOop.ArrayLIst
 
         private void IncreaseCapacity()
         {
-            T[] oldItems = items;
-
-            if (oldItems.Length == 0)
+            if (items.Length == 0)
             {
-                Capacity = oldItems.Length + 4;
+                Capacity = startCapacity;
             }
             else
             {
-                Capacity = oldItems.Length * 2;
+                Capacity = items.Length * 2;
             }
 
             modCount++;
@@ -100,18 +107,19 @@ namespace CSharpOop.ArrayLIst
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= Count)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
             }
 
             Array.Copy(items, index + 1, items, index, Count - index - 1);
-            
+
             Count--;
             modCount++;
+            items[Count] = default;
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -146,24 +154,19 @@ namespace CSharpOop.ArrayLIst
 
         public bool Contains(T item)
         {
-            if (IndexOf(item) == -1)
-            {
-                return false;
-            }
-
-            return true;
+            return (IndexOf(item) == -1) ? false : true;
         }
 
         public bool Remove(T item)
         {
-            if (IndexOf(item) == -1)
+            int result = IndexOf(item);
+
+            if (result == -1)
             {
                 return false;
             }
 
-            RemoveAt(IndexOf(item));
-
-            Array.Clear(items, Count, 1);
+            RemoveAt(result);
 
             return true;
         }
@@ -172,7 +175,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index  должен быть >= 0");
             }
 
             if (arrayIndex >= array.Length)
@@ -210,7 +213,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index > Count)
@@ -240,19 +243,21 @@ namespace CSharpOop.ArrayLIst
 
         public override string ToString()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
             if (Count == 0)
             {
-                return stringBuilder.ToString();
+                return "[]";
             }
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("[");
 
             foreach (T e in this)
             {
                 stringBuilder.Append(e).Append(", ");
             }
 
-            return stringBuilder.Remove(stringBuilder.Length - 2, 1).ToString();
+            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append("]").ToString();
         }
     }
 }
