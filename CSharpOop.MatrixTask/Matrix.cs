@@ -31,7 +31,11 @@ namespace CSharpOop.MatrixTask
         public Matrix(Matrix matrix)
         {
             rows = new Vector[matrix.rows.Length];
-            Array.Copy(matrix.rows, rows, matrix.rows.Length);
+
+            for (int i = 0; i < GetVerticalSize(); i++)
+            {
+                SetRow(i, matrix.rows[i]);
+            }
         }
 
         public Matrix(double[,] matrix)
@@ -47,55 +51,42 @@ namespace CSharpOop.MatrixTask
                     row.SetComponent(j, matrix[i, j]);
                 }
 
-                rows[i] = new Vector(row);
+                SetRow(i, row);
             }
         }
 
         public Matrix(Vector[] vectors)
         {
-            rows = new Vector[vectors.Length];
-            Array.Copy(vectors, rows, vectors.Length);
-
             int maxRowLength = vectors[0].GetSize();
-            bool isNeedAddZero = false;
 
-            for (int i = 1; i < vectors.Length; i++)
+            for (int i = 0; i < vectors.Length; i++)
             {
-                if (vectors[i].GetSize() < maxRowLength)
-                {
-                    isNeedAddZero = true;
-                    continue;
-                }
-
                 if (vectors[i].GetSize() > maxRowLength)
                 {
                     maxRowLength = vectors[i].GetSize();
-                    isNeedAddZero = true;
                 }
             }
 
-            if (isNeedAddZero)
+            rows = new Vector[vectors.Length];
+
+            for (int i = 0; i < GetVerticalSize(); i++)
             {
-                for (int i = 0; i < vectors.Length; i++)
+                if (vectors[i].GetSize() < maxRowLength)
                 {
-                    if (vectors[i].GetSize() < maxRowLength)
-                    {
-                        Vector newRow = new Vector(maxRowLength);
+                    rows[i] = new Vector(maxRowLength);
 
-                        for (int j = 0; j < vectors[i].GetSize(); j++)
-                        {
-                            newRow.SetComponent(j, vectors[i].GetComponent(j));
-                        }
-
-                        SetRow(i, newRow);
-                    }
+                    rows[i].Add(vectors[i]);
+                }
+                else
+                {
+                    SetRow(i, vectors[i]);
                 }
             }
         }
 
         public void SetRow(int index, Vector value)
         {
-            rows[index] = value;
+            rows[index] = new Vector(value);
         }
 
         public Vector GetRow(int index)
@@ -117,12 +108,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть > 0", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
             }
 
             if (index > GetHorizontalSize() - 1)
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть < " + (GetHorizontalSize() - 1), nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть < " + (GetHorizontalSize() - 1));
             }
 
             Vector columnVector = new Vector(rows.Length);
@@ -142,12 +133,7 @@ namespace CSharpOop.MatrixTask
 
             for (int i = 0; i < GetHorizontalSize(); i++)
             {
-                Vector transposedMatrixRow = new Vector(GetVerticalSize());
-
-                for (int j = 0; j < GetVerticalSize(); j++)
-                {
-                    transposedMatrixRow.SetComponent(j, rows[j].GetComponent(i));
-                }
+                Vector transposedMatrixRow = GetVectorColumn(i);
 
                 tmp[i] = transposedMatrixRow;
             }
@@ -273,18 +259,12 @@ namespace CSharpOop.MatrixTask
                 throw new NotSupportedException("Сложение доступно только для матриц одного размера.");
             }
 
-            Matrix resultMatrix = new Matrix(GetVerticalSize(), GetHorizontalSize());
-
             for (int i = 0; i < GetVerticalSize(); i++)
             {
-                for (int j = 0; j < GetHorizontalSize(); j++)
-                {
-                    double resultComponent = rows[i].GetComponent(j) + matrix.rows[i].GetComponent(j);
-                    resultMatrix.rows[i].SetComponent(j, resultComponent);
-                }
+                SetRow(i, GetRow(i).Add(matrix.GetRow(i)));
             }
 
-            return resultMatrix;
+            return this;
         }
 
         public Matrix GetSubstraction(Matrix matrix)
@@ -294,18 +274,12 @@ namespace CSharpOop.MatrixTask
                 throw new NotSupportedException("Вычитание доступно только для матриц одного размера.");
             }
 
-            Matrix resultMatrix = new Matrix(GetVerticalSize(), GetHorizontalSize());
-
             for (int i = 0; i < GetVerticalSize(); i++)
             {
-                for (int j = 0; j < GetHorizontalSize(); j++)
-                {
-                    double resultComponent = rows[i].GetComponent(j) - matrix.rows[i].GetComponent(j);
-                    resultMatrix.rows[i].SetComponent(j, resultComponent);
-                }
+                SetRow(i, GetRow(i).Subtract(matrix.GetRow(i)));
             }
 
-            return resultMatrix;
+            return this;
         }
 
         public override string ToString()
