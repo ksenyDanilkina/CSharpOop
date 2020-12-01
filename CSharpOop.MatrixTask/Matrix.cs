@@ -252,7 +252,7 @@ namespace CSharpOop.MatrixTask
             return resultVector;
         }
 
-        public Matrix GetAddition(Matrix matrix)
+        public Matrix Add(Matrix matrix)
         {
             if (GetHorizontalSize() != matrix.GetHorizontalSize() || GetVerticalSize() != matrix.GetVerticalSize())
             {
@@ -267,7 +267,7 @@ namespace CSharpOop.MatrixTask
             return this;
         }
 
-        public Matrix GetSubstraction(Matrix matrix)
+        public Matrix Substract(Matrix matrix)
         {
             if (GetHorizontalSize() != matrix.GetHorizontalSize() || GetVerticalSize() != matrix.GetVerticalSize())
             {
@@ -300,14 +300,14 @@ namespace CSharpOop.MatrixTask
         {
             Matrix matrixForAddition = new Matrix(matrix1);
 
-            return matrixForAddition.GetAddition(matrix2);
+            return matrixForAddition.Add(matrix2);
         }
 
         public static Matrix GetSubstract(Matrix matrix1, Matrix matrix2)
         {
             Matrix matrixForSubstract = new Matrix(matrix1);
 
-            return matrixForSubstract.GetSubstraction(matrix2);
+            return matrixForSubstract.Substract(matrix2);
         }
 
         public static Matrix GetMultiply(Matrix matrix1, Matrix matrix2)

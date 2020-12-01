@@ -27,8 +27,8 @@ namespace CSharpOop.MatrixTask
             Matrix matrix3 = new Matrix(matrix1);
             Vector vector5 = new Vector(new double[] { 1, 2, -1, 0 });
             Console.WriteLine("Результат умножения матрицы 3 на вектор: " + matrix3.GetMultiplicationOnVector(vector5));           
-            Console.WriteLine("Сумма матриц 1 и 3:" + matrix1.GetAddition(matrix3));           
-            Console.WriteLine("Разность матриц 3 и 1:" + matrix3.GetSubstraction(matrix1));
+            Console.WriteLine("Сумма матриц 1 и 3:" + matrix1.Add(matrix3));           
+            Console.WriteLine("Разность матриц 3 и 1:" + matrix3.Substract(matrix1));
             Console.WriteLine("Произведение матриц 1 и 2: " + Matrix.GetMultiply(matrix1, matrix2));          
         }
     }
