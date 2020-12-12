@@ -9,7 +9,7 @@ namespace CSharpOop.ArrayLIst
     {
         private T[] items;
         private int modCount;
-        private const int startCapacity = 4;
+        private const int DefaultCapacity = 4;
 
         public int Count { get; private set; }
 
@@ -21,7 +21,7 @@ namespace CSharpOop.ArrayLIst
             {
                 if (index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + Count);
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + Count);
                 }
 
                 if (index < 0)
@@ -36,7 +36,7 @@ namespace CSharpOop.ArrayLIst
             {
                 if (index >= Count)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value), "Index = " + index + ". Index должен быть <= " + Count);
+                    throw new ArgumentOutOfRangeException(nameof(value), "Index = " + index + ". Index должен быть < " + Count);
                 }
 
                 if (index < 0)
@@ -68,11 +68,16 @@ namespace CSharpOop.ArrayLIst
 
         public List()
         {
-            Capacity = startCapacity;
+            Capacity = DefaultCapacity;
         }
 
         public List(int capacity)
         {
+            if (capacity <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(capacity), "Вместимость = " + capacity + ". Вместимость должна быть > 0");
+            }
+
             Capacity = capacity;
         }
 
@@ -93,7 +98,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (items.Length == 0)
             {
-                Capacity = startCapacity;
+                Capacity = DefaultCapacity;
             }
             else
             {
@@ -154,19 +159,19 @@ namespace CSharpOop.ArrayLIst
 
         public bool Contains(T item)
         {
-            return (IndexOf(item) == -1) ? false : true;
+            return IndexOf(item) != -1;
         }
 
         public bool Remove(T item)
         {
-            int result = IndexOf(item);
+            int itemIndex = IndexOf(item);
 
-            if (result == -1)
+            if (itemIndex == -1)
             {
                 return false;
             }
 
-            RemoveAt(result);
+            RemoveAt(itemIndex);
 
             return true;
         }
