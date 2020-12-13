@@ -12,12 +12,12 @@ namespace CSharpOop.MatrixTask
         {
             if (rowsCount <= 0)
             {
-                throw new ArgumentException("RowsCount = " + rowsCount + ". RowsCount должно быть больше 0.", nameof(rowsCount));
+                throw new ArgumentException("RowsCount = " + rowsCount + ". RowsCount должно быть > 0.", nameof(rowsCount));
             }
 
             if (columnsCount <= 0)
             {
-                throw new ArgumentException("ColumnsCount = " + columnsCount + ". ColumnsCount должно быть больше 0.", nameof(columnsCount));
+                throw new ArgumentException("ColumnsCount = " + columnsCount + ". ColumnsCount должно быть > 0.", nameof(columnsCount));
             }
 
             rows = new Vector[rowsCount];
@@ -32,34 +32,44 @@ namespace CSharpOop.MatrixTask
         {
             rows = new Vector[matrix.rows.Length];
 
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                SetRow(i, matrix.rows[i]);
+                rows[i] = new Vector(matrix.rows[i]);
             }
         }
 
-        public Matrix(double[,] matrix)
+        public Matrix(double[,] array)
         {
-            rows = new Vector[matrix.GetLength(0)];
-
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            if (array.GetLength(0) == 0)
             {
-                Vector row = new Vector(matrix.GetLength(1));
+                throw new ArgumentException("Размерность массива = " + array.GetLength(0) + ". Нельзя создать матрицу размера 0");
+            }
 
-                for (int j = 0; j < matrix.GetLength(1); j++)
+            rows = new Vector[array.GetLength(0)];
+
+            for (int i = 0; i < array.GetLength(0); i++)
+            {
+                Vector row = new Vector(array.GetLength(1));
+
+                for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    row.SetComponent(j, matrix[i, j]);
+                    row.SetComponent(j, array[i, j]);
                 }
 
-                SetRow(i, row);
+                rows[i] = row;
             }
         }
 
         public Matrix(Vector[] vectors)
         {
+            if (vectors.Length == 0)
+            {
+                throw new ArgumentException("Размерность массива = " + vectors.Length + ". Нельзя создать матрицу размера 0");
+            }
+
             int maxRowLength = vectors[0].GetSize();
 
-            for (int i = 0; i < vectors.Length; i++)
+            for (int i = 1; i < vectors.Length; i++)
             {
                 if (vectors[i].GetSize() > maxRowLength)
                 {
@@ -69,7 +79,7 @@ namespace CSharpOop.MatrixTask
 
             rows = new Vector[vectors.Length];
 
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
                 if (vectors[i].GetSize() < maxRowLength)
                 {
@@ -79,94 +89,111 @@ namespace CSharpOop.MatrixTask
                 }
                 else
                 {
-                    SetRow(i, vectors[i]);
+                    rows[i] = new Vector(vectors[i]);
                 }
             }
         }
 
-        public void SetRow(int index, Vector value)
-        {
-            rows[index] = new Vector(value);
-        }
-
         public Vector GetRow(int index)
-        {
-            return rows[index];
-        }
-
-        public int GetHorizontalSize()
-        {
-            return rows[0].GetSize();
-        }
-
-        public int GetVerticalSize()
-        {
-            return rows.Length;
-        }
-
-        public Vector GetVectorColumn(int index)
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
-            if (index > GetHorizontalSize() - 1)
+            if (index >= GetRowsCount())
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть < " + (GetHorizontalSize() - 1));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + GetRowsCount());
+            }
+
+            return rows[index];
+        }
+
+        public void SetRow(int index, Vector vector)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+            }
+
+            if (index > GetRowsCount())
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + GetRowsCount());
+            }
+
+            if (vector.GetSize() != GetColumnsCount())
+            {
+                throw new ArgumentException("Размер вектора = " + vector.GetSize() + ". Размер веткора должен быть равен количеству столбцов в матрице: " + GetColumnsCount());
+            }
+
+            rows[index] = new Vector(vector);
+        }
+
+        public Vector GetColumn(int index)
+        {
+            if (index < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+            }
+
+            if (index >= GetColumnsCount())
+            {
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть < " + GetColumnsCount());
             }
 
             Vector columnVector = new Vector(rows.Length);
 
             for (int i = 0; i < rows.Length; i++)
             {
-                double component = rows[i].GetComponent(index);
-                columnVector.SetComponent(i, component);
+                columnVector.SetComponent(i, rows[i].GetComponent(index));
             }
 
             return columnVector;
         }
 
+        public int GetRowsCount()
+        {
+            return rows.Length;
+        }
+
+        public int GetColumnsCount()
+        {
+            return rows[0].GetSize();
+        }
+
         public Matrix Transpose()
         {
-            Vector[] tmp = new Vector[GetHorizontalSize()];
+            Vector[] transposedMatrixRows = new Vector[GetColumnsCount()];
 
-            for (int i = 0; i < GetHorizontalSize(); i++)
+            for (int i = 0; i < GetColumnsCount(); i++)
             {
-                Vector transposedMatrixRow = GetVectorColumn(i);
-
-                tmp[i] = transposedMatrixRow;
+                transposedMatrixRows[i] = GetColumn(i);
             }
 
-            if (tmp.Length != rows.Length)
-            {
-                Array.Resize(ref rows, tmp.Length);
-            }
-
-            Array.Copy(tmp, rows, tmp.Length);
+            rows = transposedMatrixRows;
 
             return this;
         }
 
         public Matrix Multiply(double scalar)
         {
-            for (int i = 0; i < GetVerticalSize(); i++)
+            foreach (Vector e in rows)
             {
-                rows[i].Multiply(scalar);
+                e.Multiply(scalar);
             }
 
             return this;
         }
 
-        private Matrix GetMatrixMinor(int rowForDelete, int columnForDelete)
+        private Matrix GetMatrixMinor(int rowIndexForDelete, int columnIndexForDelete)
         {
-            Vector[] minorRows = new Vector[GetHorizontalSize() - 1];
+            Vector[] minorRows = new Vector[GetColumnsCount() - 1];
 
             int rowOffset = 0;
 
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                if (i == rowForDelete)
+                if (i == rowIndexForDelete)
                 {
                     rowOffset = 1;
                     continue;
@@ -174,20 +201,20 @@ namespace CSharpOop.MatrixTask
 
                 int columnOffset = 0;
 
-                Vector tmp = new Vector(GetVerticalSize() - 1);
+                Vector vector = new Vector(GetRowsCount() - 1);
 
-                for (int j = 0; j < GetHorizontalSize(); j++)
+                for (int j = 0; j < GetColumnsCount(); j++)
                 {
-                    if (j == columnForDelete)
+                    if (j == columnIndexForDelete)
                     {
                         columnOffset = 1;
                         continue;
                     }
 
-                    tmp.SetComponent(j - columnOffset, rows[i].GetComponent(j));
+                    vector.SetComponent(j - columnOffset, rows[i].GetComponent(j));
                 }
 
-                minorRows[i - rowOffset] = tmp;
+                minorRows[i - rowOffset] = vector;
             }
 
             return new Matrix(minorRows);
@@ -195,88 +222,87 @@ namespace CSharpOop.MatrixTask
 
         public double GetDeterminant()
         {
-            if (GetHorizontalSize() != GetVerticalSize())
+            if (GetColumnsCount() != GetRowsCount())
             {
                 throw new NotSupportedException("Матрица - не квадратная, невозможно найти определитель.");
             }
 
-            double determinant = 0;
-
-            if (GetHorizontalSize() == 1)
+            if (GetColumnsCount() == 1)
             {
                 return rows[0].GetComponent(0);
             }
 
-            if (GetHorizontalSize() == 2)
+            if (GetColumnsCount() == 2)
             {
                 return rows[0].GetComponent(0) * rows[1].GetComponent(1) - rows[0].GetComponent(1) * rows[1].GetComponent(0);
             }
 
-            for (int j = 0; j < GetHorizontalSize(); j++)
+            double determinant = 0;
+
+            for (int i = 0; i < GetColumnsCount(); i++)
             {
-                if (j % 2 == 0)
+                if (i % 2 == 0)
                 {
-                    determinant += rows[0].GetComponent(j) * GetMatrixMinor(0, j).GetDeterminant();
+                    determinant += rows[0].GetComponent(i) * GetMatrixMinor(0, i).GetDeterminant();
                 }
                 else
                 {
-                    determinant -= rows[0].GetComponent(j) * GetMatrixMinor(0, j).GetDeterminant();
+                    determinant -= rows[0].GetComponent(i) * GetMatrixMinor(0, i).GetDeterminant();
                 }
             }
 
             return determinant;
         }
 
-        public Vector GetMultiplicationOnVector(Vector vector)
+        public Vector GetProductOnVector(Vector vector)
         {
-            if (GetHorizontalSize() != vector.GetSize())
+            if (GetColumnsCount() != vector.GetSize())
             {
-                throw new NotSupportedException("Длина вектора должна быть равна количеству столбцов в матрице");
+                throw new ArgumentException("Длина вектора: " + vector.GetSize() + ". Длина вектора должна быть равна количеству столбцов в матрице = " + GetColumnsCount());
             }
 
-            Vector resultVector = new Vector(GetVerticalSize());
+            Vector resultVector = new Vector(GetRowsCount());
 
-            double resultVectorComponent = 0;
-
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                for (int j = 0; j < GetHorizontalSize(); j++)
-                {
-                    resultVectorComponent += rows[i].GetComponent(j) * vector.GetComponent(j);
-                }
-
-                resultVector.SetComponent(i, resultVectorComponent);
-                resultVectorComponent = 0;
+                resultVector.SetComponent(i, Vector.GetScalarMultiplication(rows[i], vector));
             }
 
             return resultVector;
         }
 
+        private bool IsSameSize(Matrix matrix)
+        {
+            return GetColumnsCount() == matrix.GetColumnsCount() && GetRowsCount() == matrix.GetRowsCount();
+        }
+
         public Matrix Add(Matrix matrix)
         {
-            if (GetHorizontalSize() != matrix.GetHorizontalSize() || GetVerticalSize() != matrix.GetVerticalSize())
+            if (!IsSameSize(matrix))
             {
-                throw new NotSupportedException("Сложение доступно только для матриц одного размера.");
+                throw new ArgumentException("Размер матрицы 1: " + GetRowsCount() + " на " + GetColumnsCount()
+                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.");
             }
 
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                SetRow(i, GetRow(i).Add(matrix.GetRow(i)));
+                rows[i] = rows[i].Add(matrix.rows[i]);
             }
 
             return this;
         }
 
-        public Matrix Substract(Matrix matrix)
+        public Matrix Subtract(Matrix matrix)
         {
-            if (GetHorizontalSize() != matrix.GetHorizontalSize() || GetVerticalSize() != matrix.GetVerticalSize())
+            if (!IsSameSize(matrix))
             {
-                throw new NotSupportedException("Вычитание доступно только для матриц одного размера.");
+                throw new ArgumentException("Размер матрицы 1: " + GetRowsCount() + " на " + GetColumnsCount()
+                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.");
             }
 
-            for (int i = 0; i < GetVerticalSize(); i++)
+            for (int i = 0; i < GetRowsCount(); i++)
             {
-                SetRow(i, GetRow(i).Subtract(matrix.GetRow(i)));
+                rows[i] = rows[i].Subtract(matrix.rows[i]);
             }
 
             return this;
@@ -296,34 +322,47 @@ namespace CSharpOop.MatrixTask
             return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append(" }").ToString();
         }
 
-        public static Matrix GetAdd(Matrix matrix1, Matrix matrix2)
+        public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
         {
-            Matrix matrixForAddition = new Matrix(matrix1);
-
-            return matrixForAddition.Add(matrix2);
-        }
-
-        public static Matrix GetSubstract(Matrix matrix1, Matrix matrix2)
-        {
-            Matrix matrixForSubstract = new Matrix(matrix1);
-
-            return matrixForSubstract.Substract(matrix2);
-        }
-
-        public static Matrix GetMultiply(Matrix matrix1, Matrix matrix2)
-        {
-            if (matrix1.GetHorizontalSize() != matrix2.GetVerticalSize())
+            if (!matrix1.IsSameSize(matrix2))
             {
-                throw new NotSupportedException("Умножение доступно только для согласованных матриц.");
+                throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
+                     + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.");
             }
 
-            Matrix resultMatrix = new Matrix(matrix1.GetVerticalSize(), matrix2.GetHorizontalSize());
+            Matrix result = new Matrix(matrix1);
 
-            for (int i = 0; i < matrix1.GetVerticalSize(); i++)
+            return result.Add(matrix2);
+        }
+
+        public static Matrix GetDifference(Matrix matrix1, Matrix matrix2)
+        {
+            if (!matrix1.IsSameSize(matrix2))
             {
-                for (int j = 0; j < matrix2.GetHorizontalSize(); j++)
+                throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.");
+            }
+
+            Matrix result = new Matrix(matrix1);
+
+            return result.Subtract(matrix2);
+        }
+
+        public static Matrix GetProduct(Matrix matrix1, Matrix matrix2)
+        {
+            if (matrix1.GetColumnsCount() != matrix2.GetRowsCount())
+            {
+                throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Умножение доступно только для согласованных матриц.");
+            }
+
+            Matrix resultMatrix = new Matrix(matrix1.GetRowsCount(), matrix2.GetColumnsCount());
+
+            for (int i = 0; i < matrix1.GetRowsCount(); i++)
+            {
+                for (int j = 0; j < matrix2.GetColumnsCount(); j++)
                 {
-                    double component = Vector.GetScalarMultiplication(matrix1.rows[i], matrix2.GetVectorColumn(j));
+                    double component = Vector.GetScalarMultiplication(matrix1.rows[i], matrix2.GetColumn(j));
 
                     resultMatrix.rows[i].SetComponent(j, component);
                 }
