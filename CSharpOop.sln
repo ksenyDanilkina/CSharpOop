@@ -21,6 +21,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.MatrixTask", "CSh
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.VectorsTask", "CSharpOop.VectorsTask\CSharpOop.VectorsTask.csproj", "{DF1FF3E3-960B-42F2-92B1-79094F8C79E7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpOop.BinaryTree", "CSharpOop.BinaryTree\CSharpOop.BinaryTree.csproj", "{7A7D5992-2B2E-43E5-8B82-A735A9E2D51D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{DF1FF3E3-960B-42F2-92B1-79094F8C79E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF1FF3E3-960B-42F2-92B1-79094F8C79E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF1FF3E3-960B-42F2-92B1-79094F8C79E7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A7D5992-2B2E-43E5-8B82-A735A9E2D51D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A7D5992-2B2E-43E5-8B82-A735A9E2D51D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A7D5992-2B2E-43E5-8B82-A735A9E2D51D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A7D5992-2B2E-43E5-8B82-A735A9E2D51D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
