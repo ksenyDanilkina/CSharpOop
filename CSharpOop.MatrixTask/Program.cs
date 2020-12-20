@@ -26,7 +26,7 @@ namespace CSharpOop.MatrixTask
 
             Matrix matrix3 = new Matrix(matrix1);
             Vector vector5 = new Vector(new double[] { 1, 2, -1, 0 });
-            Console.WriteLine("Результат умножения матрицы 3 на вектор: " + matrix3.GetProductOnVector(vector5));
+            Console.WriteLine("Результат умножения матрицы 3 на вектор: " + matrix3.GetProduct(vector5));
             Console.WriteLine("Сумма матриц 1 и 3:" + matrix1.Add(matrix3));
             Console.WriteLine("Разность матриц 3 и 1:" + matrix3.Subtract(matrix1));
             Console.WriteLine("Произведение матриц 1 и 2: " + Matrix.GetProduct(matrix1, matrix2));

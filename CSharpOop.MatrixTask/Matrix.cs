@@ -40,23 +40,21 @@ namespace CSharpOop.MatrixTask
 
         public Matrix(double[,] array)
         {
-            if (array.GetLength(0) == 0)
+            if (array.GetLength(0) == 0 && array.GetLength(1) == 0)
             {
-                throw new ArgumentException("Размерность массива = " + array.GetLength(0) + ". Нельзя создать матрицу размера 0");
+                throw new ArgumentException("Размерность массива = " + array.GetLength(0) + ". Нельзя создать матрицу размера 0", nameof(array));
             }
 
             rows = new Vector[array.GetLength(0)];
 
             for (int i = 0; i < array.GetLength(0); i++)
             {
-                Vector row = new Vector(array.GetLength(1));
+                rows[i] = new Vector(array.GetLength(1));
 
                 for (int j = 0; j < array.GetLength(1); j++)
                 {
-                    row.SetComponent(j, array[i, j]);
+                    rows[i].SetComponent(j, array[i, j]);
                 }
-
-                rows[i] = row;
             }
         }
 
@@ -64,16 +62,16 @@ namespace CSharpOop.MatrixTask
         {
             if (vectors.Length == 0)
             {
-                throw new ArgumentException("Размерность массива = " + vectors.Length + ". Нельзя создать матрицу размера 0");
+                throw new ArgumentException("Размерность массива = " + vectors.Length + ". Нельзя создать матрицу размера 0", nameof(vectors));
             }
 
-            int maxRowLength = vectors[0].GetSize();
+            int maxVectorSize = vectors[0].GetSize();
 
             for (int i = 1; i < vectors.Length; i++)
             {
-                if (vectors[i].GetSize() > maxRowLength)
+                if (vectors[i].GetSize() > maxVectorSize)
                 {
-                    maxRowLength = vectors[i].GetSize();
+                    maxVectorSize = vectors[i].GetSize();
                 }
             }
 
@@ -81,9 +79,9 @@ namespace CSharpOop.MatrixTask
 
             for (int i = 0; i < GetRowsCount(); i++)
             {
-                if (vectors[i].GetSize() < maxRowLength)
+                if (vectors[i].GetSize() < maxVectorSize)
                 {
-                    rows[i] = new Vector(maxRowLength);
+                    rows[i] = new Vector(maxVectorSize);
 
                     rows[i].Add(vectors[i]);
                 }
@@ -98,12 +96,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
             }
 
             if (index >= GetRowsCount())
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + GetRowsCount());
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index должен быть < " + GetRowsCount(), nameof(index));
             }
 
             return rows[index];
@@ -113,17 +111,17 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
             }
 
-            if (index > GetRowsCount())
+            if (index >= GetRowsCount())
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + GetRowsCount());
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index должен быть <= " + GetRowsCount(), nameof(index));
             }
 
             if (vector.GetSize() != GetColumnsCount())
             {
-                throw new ArgumentException("Размер вектора = " + vector.GetSize() + ". Размер веткора должен быть равен количеству столбцов в матрице: " + GetColumnsCount());
+                throw new ArgumentException("Размер вектора = " + vector.GetSize() + ". Размер веткора должен быть равен количеству столбцов в матрице: " + GetColumnsCount(), nameof(vector));
             }
 
             rows[index] = new Vector(vector);
@@ -133,12 +131,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
             }
 
             if (index >= GetColumnsCount())
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть < " + GetColumnsCount());
+                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть < " + GetColumnsCount(), nameof(index));
             }
 
             Vector columnVector = new Vector(rows.Length);
@@ -224,7 +222,7 @@ namespace CSharpOop.MatrixTask
         {
             if (GetColumnsCount() != GetRowsCount())
             {
-                throw new NotSupportedException("Матрица - не квадратная, невозможно найти определитель.");
+                throw new NotSupportedException("Размер матрицы : " + GetRowsCount() + " на " + GetColumnsCount() + ". Матрица - не квадратная, невозможно найти определитель.");
             }
 
             if (GetColumnsCount() == 1)
@@ -254,11 +252,11 @@ namespace CSharpOop.MatrixTask
             return determinant;
         }
 
-        public Vector GetProductOnVector(Vector vector)
+        public Vector GetProduct(Vector vector)
         {
             if (GetColumnsCount() != vector.GetSize())
             {
-                throw new ArgumentException("Длина вектора: " + vector.GetSize() + ". Длина вектора должна быть равна количеству столбцов в матрице = " + GetColumnsCount());
+                throw new ArgumentException("Длина вектора: " + vector.GetSize() + ". Длина вектора должна быть равна количеству столбцов в матрице = " + GetColumnsCount(), nameof(vector));
             }
 
             Vector resultVector = new Vector(GetRowsCount());
@@ -281,12 +279,12 @@ namespace CSharpOop.MatrixTask
             if (!IsSameSize(matrix))
             {
                 throw new ArgumentException("Размер матрицы 1: " + GetRowsCount() + " на " + GetColumnsCount()
-                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.");
+                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.", nameof(matrix));
             }
 
             for (int i = 0; i < GetRowsCount(); i++)
             {
-                rows[i] = rows[i].Add(matrix.rows[i]);
+                rows[i].Add(matrix.rows[i]);
             }
 
             return this;
@@ -297,12 +295,12 @@ namespace CSharpOop.MatrixTask
             if (!IsSameSize(matrix))
             {
                 throw new ArgumentException("Размер матрицы 1: " + GetRowsCount() + " на " + GetColumnsCount()
-                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.");
+                   + ". Размер матрицы 2: " + matrix.GetRowsCount() + " на " + matrix.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.", nameof(matrix));
             }
 
             for (int i = 0; i < GetRowsCount(); i++)
             {
-                rows[i] = rows[i].Subtract(matrix.rows[i]);
+                rows[i].Subtract(matrix.rows[i]);
             }
 
             return this;
@@ -312,14 +310,14 @@ namespace CSharpOop.MatrixTask
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("{ ");
+            stringBuilder.Append("{");
 
             foreach (Vector e in rows)
             {
                 stringBuilder.Append(e).Append(", ");
             }
 
-            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append(" }").ToString();
+            return stringBuilder.Remove(stringBuilder.Length - 2, 2).Append("}").ToString();
         }
 
         public static Matrix GetSum(Matrix matrix1, Matrix matrix2)
@@ -327,7 +325,7 @@ namespace CSharpOop.MatrixTask
             if (!matrix1.IsSameSize(matrix2))
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                     + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.");
+                     + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.", nameof(matrix2));
             }
 
             Matrix result = new Matrix(matrix1);
@@ -340,7 +338,7 @@ namespace CSharpOop.MatrixTask
             if (!matrix1.IsSameSize(matrix2))
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.");
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.", nameof(matrix2));
             }
 
             Matrix result = new Matrix(matrix1);
@@ -353,7 +351,7 @@ namespace CSharpOop.MatrixTask
             if (matrix1.GetColumnsCount() != matrix2.GetRowsCount())
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Умножение доступно только для согласованных матриц.");
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Умножение доступно только для согласованных матриц.", nameof(matrix2));
             }
 
             Matrix resultMatrix = new Matrix(matrix1.GetRowsCount(), matrix2.GetColumnsCount());
