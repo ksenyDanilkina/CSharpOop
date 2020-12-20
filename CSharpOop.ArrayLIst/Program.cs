@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CSharpOop.ArrayLIst
+namespace CSharpOop.ArrayList
 {
     class Program
     {

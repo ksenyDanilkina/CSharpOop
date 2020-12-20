@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 
-namespace CSharpOop.ArrayLIst
+namespace CSharpOop.ArrayList
 {
     class List<T> : IList<T>
     {
@@ -26,7 +26,7 @@ namespace CSharpOop.ArrayLIst
 
                 if (index < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть >= 0");
                 }
 
                 return items[index];
@@ -41,10 +41,11 @@ namespace CSharpOop.ArrayLIst
 
                 if (index < 0)
                 {
-                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                    throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть >= 0");
                 }
 
                 items[index] = value;
+                modCount++;
             }
         }
 
@@ -73,9 +74,9 @@ namespace CSharpOop.ArrayLIst
 
         public List(int capacity)
         {
-            if (capacity <= 0)
+            if (capacity < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(capacity), "Вместимость = " + capacity + ". Вместимость должна быть > 0");
+                throw new ArgumentOutOfRangeException(nameof(capacity), "Вместимость = " + capacity + ". Вместимость должна быть >= 0");
             }
 
             Capacity = capacity;
@@ -112,7 +113,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть >= 0");
             }
 
             if (index >= Count)
@@ -180,7 +181,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index должен быть >= 0");
             }
 
             if (arrayIndex >= array.Length)
@@ -218,7 +219,7 @@ namespace CSharpOop.ArrayLIst
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть >= 0");
             }
 
             if (index > Count)
