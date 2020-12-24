@@ -60,6 +60,11 @@ namespace CSharpOop.BinaryTree
 
         public bool Contains(int data)
         {
+            if (root == null)
+            {
+                throw new NullReferenceException("Дерево пусто");
+            }
+
             return GetNodeWithParent(data)[0] != null;
         }
 
@@ -124,7 +129,7 @@ namespace CSharpOop.BinaryTree
         {
             if (root == null)
             {
-                throw new ArgumentException("Дерево пусто");
+                throw new NullReferenceException("Дерево пусто");
             }
 
             Visit(action, root);
@@ -134,7 +139,7 @@ namespace CSharpOop.BinaryTree
         {
             if (root == null)
             {
-                throw new ArgumentException("Дерево пусто");
+                throw new NullReferenceException("Дерево пусто");
             }
 
             Stack<TreeNode> stack = new Stack<TreeNode>();
@@ -190,6 +195,11 @@ namespace CSharpOop.BinaryTree
 
         public bool Remove(int data)
         {
+            if (root == null)
+            {
+                throw new NullReferenceException("Дерево пусто");
+            }
+
             TreeNode nodeForDelete = GetNodeWithParent(data)[0];
             TreeNode nodeForDeleteParent = GetNodeWithParent(data)[1];
 
