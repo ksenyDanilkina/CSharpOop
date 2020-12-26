@@ -9,7 +9,7 @@ namespace CSharpOop.LambdaFunction
     {
         static void Main(string[] args)
         {
-            var persons = new List<Person> 
+            var persons = new List<Person>
             {
                 new Person("Иван", 25),
                 new Person("Ирина", 44),
@@ -35,21 +35,18 @@ namespace CSharpOop.LambdaFunction
             }
             else
             {
-                var averageAge = personsUnder18
-                    .Select(p => p.Age)
-                    .Average();
+                var averageAge = personsUnder18.Average(p => p.Age);
 
                 Console.WriteLine("Средний возраст людей младше 18: " + averageAge);
             }
 
-            var groupedByNamePersons = persons
+            var averageAgesByNames = persons
                 .GroupBy(p => p.Name)
-                .ToDictionary(p => p.Key, p => p.Select(x => x.Age)
-                .Average());
+                .ToDictionary(p => p.Key, p => p.Average(x => x.Age));
 
             var stringBuilder = new StringBuilder();
 
-            foreach (var keyValuePair in groupedByNamePersons)
+            foreach (var keyValuePair in averageAgesByNames)
             {
                 stringBuilder.Append(keyValuePair.Key).Append(" - ").Append(keyValuePair.Value).AppendLine();
             }
