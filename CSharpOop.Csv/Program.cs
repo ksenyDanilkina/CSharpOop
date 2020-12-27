@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System;
 
 namespace CSharpOop.Csv
 {
@@ -6,132 +7,180 @@ namespace CSharpOop.Csv
     {
         static void Main(string[] args)
         {
-            using (StreamReader reader = new StreamReader("CSV.txt"))
+            if (args.Length <= 1)
             {
-                using (StreamWriter writer = new StreamWriter("HTML.txt"))
+                throw new ArgumentException("Отсутвуют необходимые аргументы программы.", nameof(args));
+            }
+
+            try
+            {
+                using (StreamReader reader = new StreamReader(args[0]))
                 {
-                    string currentFileLine;
-
-                    writer.WriteLine("<table>");
-
-                    bool isLineBreak = false;
-
-                    while ((currentFileLine = reader.ReadLine()) != null)
+                    using (StreamWriter writer = new StreamWriter(args[1]))
                     {
-                        for (int i = 0; i < currentFileLine.Length; i++)
+                        string currentFileLine;
+
+                        writer.WriteLine("<!DOCTYPE HTML>");
+                        writer.WriteLine("<html>");
+                        writer.WriteLine("<head>");
+                        writer.WriteLine("<title>Таблица</title>");
+                        writer.WriteLine("<meta charset = \"utf - 8\">");
+                        writer.WriteLine("</head>");
+                        writer.WriteLine("<body");
+                        writer.WriteLine("<table>");
+
+                        bool isLineBreak = false;
+
+                        while ((currentFileLine = reader.ReadLine()) != null)
                         {
-                            if (i == 0 && currentFileLine[i] != '"')
+                            for (int i = 0; i < currentFileLine.Length; i++)
                             {
-                                if (isLineBreak)
+                                if (i == 0 && currentFileLine[i] != '"')
                                 {
-                                    writer.Write(currentFileLine[i]);
+                                    if (isLineBreak)
+                                    {
+                                        writer.Write(GetHtmlFormattedString(currentFileLine[i]));
 
-                                    continue;
-                                }
+                                        continue;
+                                    }
 
-                                if (currentFileLine[i] == ',')
-                                {
+                                    if (currentFileLine[i] == ',')
+                                    {
+                                        writer.WriteLine("<tr>");
+                                        writer.WriteLine("<td></td>");
+                                        writer.Write("<td>");
+
+                                        continue;
+                                    }
+
                                     writer.WriteLine("<tr>");
-                                    writer.WriteLine("<td></td>");
-                                    writer.Write("<td>");
+                                    writer.Write("<td>" + GetHtmlFormattedString(currentFileLine[i]));
 
                                     continue;
                                 }
 
-                                writer.WriteLine("<tr>");
-                                writer.Write("<td>" + currentFileLine[i]);
-
-                                continue;
-                            }
-
-                            if (i == currentFileLine.Length - 1)
-                            {
-                                if (currentFileLine[i] == ',')
+                                if (i == currentFileLine.Length - 1)
                                 {
-                                    writer.WriteLine("</td>");
-                                    writer.WriteLine("<td></td>");
+                                    if (currentFileLine[i] == ',')
+                                    {
+                                        writer.WriteLine("</td>");
+                                        writer.WriteLine("<td></td>");
+                                        writer.WriteLine("</tr>");
+
+                                        break;
+                                    }
+
+                                    writer.Write(GetHtmlFormattedString(currentFileLine[i]) + "</td>");
+
                                     writer.WriteLine("</tr>");
 
                                     break;
                                 }
 
-                                writer.WriteLine(currentFileLine[i] + "</td>");
-                                writer.WriteLine("</tr>");
-
-                                break;
-                            }
-
-                            if (currentFileLine[i] == ',')
-                            {
-                                writer.WriteLine("</td>");
-                                writer.Write("<td>");
-
-                                continue;
-                            }
-
-                            if (currentFileLine[i] == '"')
-                            {
-                                if (isLineBreak)
+                                if (currentFileLine[i] == ',')
                                 {
-                                    isLineBreak = false;
+                                    writer.WriteLine("</td>");
+                                    writer.Write("<td>");
 
                                     continue;
                                 }
 
-                                for (int j = i + 1; j < currentFileLine.Length; j++)
+                                if (currentFileLine[i] == '"')
                                 {
-                                    if (j == 1)
+                                    if (isLineBreak)
                                     {
-                                        writer.WriteLine("<tr>");
-                                        writer.Write("<td>");
+                                        isLineBreak = false;
+
+                                        continue;
                                     }
 
-                                    if (j == currentFileLine.Length - 1)
+                                    for (int j = i + 1; j < currentFileLine.Length; j++)
                                     {
-                                        if (currentFileLine[j] == '"')
+                                        if (j == 1)
                                         {
-                                            writer.WriteLine("</td>");
-                                            writer.WriteLine("</tr>");
+                                            writer.WriteLine("<tr>");
+                                            writer.Write("<td>");
+                                        }
+
+                                        if (j == currentFileLine.Length - 1)
+                                        {
+                                            if (currentFileLine[j] == '"')
+                                            {
+                                                writer.WriteLine("</td>");
+                                                writer.WriteLine("</tr>");
+                                                i = j;
+
+                                                break;
+                                            }
+
+                                            isLineBreak = true;
+
+                                            writer.Write(GetHtmlFormattedString(currentFileLine[j]) + "<br/>");
+
                                             i = j;
 
                                             break;
                                         }
 
-                                        isLineBreak = true;
-                                        writer.Write(currentFileLine[j] + "<br/>");
-                                        i = j;
-
-                                        break;
-                                    }
-
-                                    if (currentFileLine[j] == '"')
-                                    {
-                                        if (currentFileLine[j + 1] == '"')
+                                        if (currentFileLine[j] == '"')
                                         {
-                                            writer.Write("\"");
-                                            j++;
+                                            if (currentFileLine[j + 1] == '"')
+                                            {
+                                                writer.Write("\"");
+                                                j++;
 
-                                            continue;
+                                                continue;
+                                            }
+
+                                            i = j;
+
+                                            break;
                                         }
 
-                                        i = j;
-
-                                        break;
+                                        writer.Write(GetHtmlFormattedString(currentFileLine[j]));
                                     }
-
-                                    writer.Write(currentFileLine[j]);                                                                   
+                                }
+                                else
+                                {
+                                    writer.Write(GetHtmlFormattedString(currentFileLine[i]));
                                 }
                             }
-                            else
-                            {
-                                writer.Write(currentFileLine[i]);
-                            }
                         }
-                    }
 
-                    writer.Write("</table>");
+                        writer.WriteLine("</table>");
+                        writer.WriteLine("</body>");
+                        writer.WriteLine("</html>");
+                    }
                 }
             }
+            catch (FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        public static string GetHtmlFormattedString(char c)
+        {
+            if (c == '<')
+            {
+                return "&lt";
+            }
+
+            if (c == '>')
+            {
+                return "&gt";
+            }
+
+            if (c == '&')
+            {
+                return "&amt";
+            }
+
+            return c.ToString();
         }
     }
 }
