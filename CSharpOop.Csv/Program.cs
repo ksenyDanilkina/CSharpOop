@@ -9,7 +9,7 @@ namespace CSharpOop.Csv
         {
             if (args.Length <= 1)
             {
-                throw new ArgumentException("Отсутвуют необходимые аргументы программы.", nameof(args));
+                throw new ArgumentException("Отсутствуют необходимые аргументы программы.", nameof(args));
             }
 
             try
