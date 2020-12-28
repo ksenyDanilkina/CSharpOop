@@ -42,7 +42,8 @@ namespace CSharpOop.MatrixTask
         {
             if (array.GetLength(0) == 0 && array.GetLength(1) == 0)
             {
-                throw new ArgumentException("Размерность массива = " + array.GetLength(0) + ". Нельзя создать матрицу размера 0", nameof(array));
+                throw new ArgumentException("Размерность двумерного массива: " + array.GetLength(0) + " на " + array.GetLength(1) +
+                    ". Нельзя создать матрицу размера 0", nameof(array));
             }
 
             rows = new Vector[array.GetLength(0)];
@@ -96,12 +97,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= GetRowsCount())
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index должен быть < " + GetRowsCount(), nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть < " + GetRowsCount());
             }
 
             return rows[index];
@@ -111,12 +112,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= GetRowsCount())
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index должен быть <= " + GetRowsCount(), nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index должен быть <= " + GetRowsCount());
             }
 
             if (vector.GetSize() != GetColumnsCount())
@@ -131,12 +132,12 @@ namespace CSharpOop.MatrixTask
         {
             if (index < 0)
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть >= 0", nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть >= 0");
             }
 
             if (index >= GetColumnsCount())
             {
-                throw new ArgumentOutOfRangeException("Index = " + index + ". Index  должен быть < " + GetColumnsCount(), nameof(index));
+                throw new ArgumentOutOfRangeException(nameof(index), "Index = " + index + ". Index  должен быть < " + GetColumnsCount());
             }
 
             Vector columnVector = new Vector(rows.Length);
@@ -325,7 +326,8 @@ namespace CSharpOop.MatrixTask
             if (!matrix1.IsSameSize(matrix2))
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                     + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Сложение доступно только для матриц одного размера.", nameof(matrix2));
+                     + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount()
+                     + ". Сложение доступно только для матриц одного размера.", nameof(matrix1) + ", " + nameof(matrix2));
             }
 
             Matrix result = new Matrix(matrix1);
@@ -338,7 +340,8 @@ namespace CSharpOop.MatrixTask
             if (!matrix1.IsSameSize(matrix2))
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Вычитание доступно только для матриц одного размера.", nameof(matrix2));
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount()
+                    + ". Вычитание доступно только для матриц одного размера.", nameof(matrix1) + ", " + nameof(matrix2));
             }
 
             Matrix result = new Matrix(matrix1);
@@ -351,7 +354,8 @@ namespace CSharpOop.MatrixTask
             if (matrix1.GetColumnsCount() != matrix2.GetRowsCount())
             {
                 throw new ArgumentException("Размер матрицы 1: " + matrix1.GetRowsCount() + " на " + matrix1.GetColumnsCount()
-                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount() + ". Умножение доступно только для согласованных матриц.", nameof(matrix2));
+                    + ". Размер матрицы 2: " + matrix2.GetRowsCount() + " на " + matrix2.GetColumnsCount()
+                    + ". Умножение доступно только для согласованных матриц.", nameof(matrix1) + ", " + nameof(matrix2));
             }
 
             Matrix resultMatrix = new Matrix(matrix1.GetRowsCount(), matrix2.GetColumnsCount());
