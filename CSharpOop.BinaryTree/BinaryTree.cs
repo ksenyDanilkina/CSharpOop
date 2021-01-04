@@ -4,95 +4,92 @@ using System.Collections;
 
 namespace CSharpOop.BinaryTree
 {
-    class BinaryTree
+    class BinaryTree<T> where T : IComparable<T>
     {
-        private TreeNode root;
-        private int count;
+        private TreeNode<T> root;
 
-        public void Add(int data)
+        public int Count { get; private set; }
+
+        public void Add(T data)
         {
             if (root == null)
             {
-                root = new TreeNode(data);
-                count++;
-            }
-            else
-            {
-                TreeNode current = root;
-                bool isNodeAdded = false;
+                root = new TreeNode<T>(data);
+                Count++;
 
-                while (!isNodeAdded)
+                return;
+            }
+
+            TreeNode<T> current = root;
+
+            while (true)
+            {
+                if (data.CompareTo(current.Data) < 0)
                 {
-                    if (data < current.Data)
+                    if (current.Left != null)
                     {
-                        if (current.Left != null)
-                        {
-                            current = current.Left;
-                        }
-                        else
-                        {
-                            current.Left = new TreeNode(data);
-                            count++;
-                            isNodeAdded = true;
-                        }
+                        current = current.Left;
+
+                        continue;
                     }
-                    else
+
+                    current.Left = new TreeNode<T>(data);
+                    Count++;
+
+                    return;
+                }
+                else
+                {
+                    if (current.Right != null)
                     {
-                        if (current.Right != null)
-                        {
-                            current = current.Right;
-                        }
-                        else
-                        {
-                            current.Right = new TreeNode(data);
-                            count++;
-                            isNodeAdded = true;
-                        }
+                        current = current.Right;
+
+                        continue;
                     }
+
+                    current.Right = new TreeNode<T>(data);
+                    Count++;
+
+                    return;
                 }
             }
         }
 
-        public int GetCount()
+        public bool Contains(T data)
         {
-            return count;
-        }
-
-        public bool Contains(int data)
-        {
-            if (root == null)
-            {
-                throw new NullReferenceException("Дерево пусто");
-            }
-
             return GetNodeWithParent(data)[0] != null;
         }
 
-        private TreeNode[] GetNodeWithParent(int data)
+        private TreeNode<T>[] GetNodeWithParent(T data)
         {
-            TreeNode current = root;
-            TreeNode parent = null;
-
-            bool isSearchEnd = false;
-
-            while (!isSearchEnd)
+            if (root == null)
             {
-                if (current.Data == data)
+                return new TreeNode<T>[] { null, null };
+            }
+
+            TreeNode<T> current = root;
+            TreeNode<T> parent = null;
+
+            while (true)
+            {
+                if (current.Data.CompareTo(data) == 0)
                 {
-                    isSearchEnd = true;
+                    break;
                 }
-                else if (data < current.Data)
+
+                if (data.CompareTo(current.Data) < 0)
                 {
                     if (current.Left != null)
                     {
                         parent = current;
                         current = current.Left;
+
+                        continue;
                     }
-                    else
-                    {
-                        isSearchEnd = true;
-                        current = null;
-                    }
+
+                    current = null;
+
+                    break;
                 }
                 else
                 {
@@ -100,55 +97,50 @@ namespace CSharpOop.BinaryTree
                     {
                         parent = current;
                         current = current.Right;
+
+                        continue;
                     }
-                    else
-                    {
-                        isSearchEnd = true;
-                        current = null;
-                    }
+
+                    current = null;
+
+                    break;
                 }
             }
 
-            return new TreeNode[] { current, parent };
+            return new TreeNode<T>[] { current, parent };
         }
 
-        private void Visit(Action action, TreeNode node)
+        private static void Visit(Action<T> action, TreeNode<T> node)
         {
-            if (node.Left != null)
+            if (node != null)
             {
                 Visit(action, node.Left);
-            }
 
-            if (node.Right != null)
-            {
+                action(node.Data);
+
                 Visit(action, node.Right);
             }
         }
 
-        public void RecursiveDepthTraversal(Action action)
+        public void RecursiveDepthTraversal(Action<T> action)
         {
-            if (root == null)
-            {
-                throw new NullReferenceException("Дерево пусто");
-            }
-
             Visit(action, root);
         }
 
-        public IEnumerable DepthTraversal()
+        public IEnumerable<T> DepthTraversal()
         {
             if (root == null)
             {
-                throw new NullReferenceException("Дерево пусто");
+                yield break;
             }
 
-            Stack<TreeNode> stack = new Stack<TreeNode>();
+            Stack<TreeNode<T>> stack = new Stack<TreeNode<T>>();
 
             stack.Push(root);
 
             while (stack.Count != 0)
             {
-                TreeNode node = stack.Pop();
+                TreeNode<T> node = stack.Pop();
 
                 yield return node.Data;
 
@@ -164,20 +156,20 @@ namespace CSharpOop.BinaryTree
             }
         }
 
-        public IEnumerable WidthTraversal()
+        public IEnumerable<T> WidthTraversal()
         {
             if (root == null)
             {
-                throw new NullReferenceException("Дерево пусто");
+                yield break;
             }
 
-            Queue<TreeNode> queue = new Queue<TreeNode>();
+            Queue<TreeNode<T>> queue = new Queue<TreeNode<T>>();
 
             queue.Enqueue(root);
 
             while (queue.Count != 0)
             {
-                TreeNode node = queue.Dequeue();
+                TreeNode<T> node = queue.Dequeue();
 
                 yield return node.Data;
 
@@ -193,27 +185,18 @@ namespace CSharpOop.BinaryTree
             }
         }
 
-        public bool Remove(int data)
+        public bool Remove(T data)
         {
-            if (root == null)
-            {
-                throw new NullReferenceException("Дерево пусто");
-            }
-
-            TreeNode nodeForDelete = GetNodeWithParent(data)[0];
-            TreeNode nodeForDeleteParent = GetNodeWithParent(data)[1];
+            TreeNode<T>[] nodeWithParent = GetNodeWithParent(data);
+            TreeNode<T> nodeForDelete = nodeWithParent[0];
+            TreeNode<T> nodeForDeleteParent = nodeWithParent[1];
 
             if (nodeForDelete == null)
             {
                 return false;
             }
 
-            bool isLeftChild = false;
-
-            if (nodeForDeleteParent.Data > nodeForDelete.Data)
-            {
-                isLeftChild = true;
-            }
+            bool isLeftChild = nodeForDeleteParent != null && nodeForDeleteParent.Left == nodeForDelete;
 
             if (nodeForDelete.Left == null && nodeForDelete.Right == null)
             {
@@ -275,8 +258,8 @@ namespace CSharpOop.BinaryTree
                 }
                 else
                 {
-                    TreeNode leftMinNode = nodeForDelete.Right.Left;
-                    TreeNode leftMinNodeParent = nodeForDelete.Right;
+                    TreeNode<T> leftMinNode = nodeForDelete.Right.Left;
+                    TreeNode<T> leftMinNodeParent = nodeForDelete.Right;
 
                     while (leftMinNode.Left != null)
                     {
@@ -306,7 +289,7 @@ namespace CSharpOop.BinaryTree
                 }
             }
 
-            count--;
+            Count--;
 
             return true;
         }

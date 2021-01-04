@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 
 namespace CSharpOop.BinaryTree
@@ -8,7 +9,7 @@ namespace CSharpOop.BinaryTree
     {
         static void Main(string[] args)
         {
-            BinaryTree tree = new BinaryTree();
+            BinaryTree<int> tree = new BinaryTree<int>();
 
             tree.Add(10);
             tree.Add(18);
@@ -24,27 +25,20 @@ namespace CSharpOop.BinaryTree
             tree.Add(4);
             tree.Add(21);
             tree.Add(31);
-
+                     
             Console.WriteLine("Элемент со значением 26 удален: " + tree.Remove(26));
-
+        
             Console.WriteLine("Дерево содержит элемент со значением 31? " + tree.Contains(31));
-
+            
             Console.WriteLine("Обход дерева в ширину: "+ GetNodesString(tree.WidthTraversal()));
             Console.WriteLine("Обход дерева в глубину: " + GetNodesString(tree.DepthTraversal()));
 
-            Console.WriteLine("Количество элементов дерева: " + tree.GetCount());
+            Console.WriteLine("Количество элементов дерева: " + tree.Count);
         }
 
-        public static string GetNodesString(IEnumerable enumerable)
-        {
-            StringBuilder stringBuilder = new StringBuilder();          
-
-            foreach (int e in enumerable)
-            {
-                stringBuilder.Append(e).Append(", ");
-            }
-
-            return stringBuilder.Remove(stringBuilder.Length - 2, 2).ToString();
+        public static string GetNodesString(IEnumerable<int> enumerable)
+        {     
+            return string.Join(", ", enumerable);            
         }
     }
 }
