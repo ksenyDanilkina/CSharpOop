@@ -9,7 +9,9 @@ namespace CSharpOop.Csv
         {
             if (args.Length <= 1)
             {
-                throw new ArgumentException("Отсутствуют необходимые аргументы программы.", nameof(args));
+                Console.WriteLine("Необходимое количество аргументов = 2. Аргумент 1 - файл для чтения, аргумент 2 - файл для записи.");
+
+                return;
             }
 
             try
@@ -18,18 +20,17 @@ namespace CSharpOop.Csv
                 {
                     using (StreamWriter writer = new StreamWriter(args[1]))
                     {
-                        string currentFileLine;
-
                         writer.WriteLine("<!DOCTYPE HTML>");
                         writer.WriteLine("<html>");
                         writer.WriteLine("<head>");
                         writer.WriteLine("<title>Таблица</title>");
-                        writer.WriteLine("<meta charset = \"utf - 8\">");
+                        writer.WriteLine("<meta charset=\"utf-8\">");
                         writer.WriteLine("</head>");
-                        writer.WriteLine("<body");
+                        writer.WriteLine("<body>");
                         writer.WriteLine("<table>");
 
                         bool isLineBreak = false;
+                        string currentFileLine;
 
                         while ((currentFileLine = reader.ReadLine()) != null)
                         {
@@ -167,17 +168,17 @@ namespace CSharpOop.Csv
         {
             if (c == '<')
             {
-                return "&lt";
+                return "&lt;";
             }
 
             if (c == '>')
             {
-                return "&gt";
+                return "&gt;";
             }
 
             if (c == '&')
             {
-                return "&amt";
+                return "&amp;";
             }
 
             return c.ToString();
