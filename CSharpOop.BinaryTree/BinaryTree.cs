@@ -114,9 +114,9 @@ namespace CSharpOop.BinaryTree
         {
             if (node != null)
             {
-                Visit(action, node.Left);
-
                 action(node.Data);
+
+                Visit(action, node.Left);               
 
                 Visit(action, node.Right);
             }
