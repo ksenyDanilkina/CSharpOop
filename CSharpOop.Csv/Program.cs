@@ -154,13 +154,13 @@ namespace CSharpOop.Csv
                     }
                 }
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Не удается найти указанный файл.");
             }
-            catch (IOException e)
+            catch (IOException)
             {
-                Console.WriteLine(e.Message);
+                Console.WriteLine("Возникла ошибка при вводе/выводе данных из файла.");
             }
         }
 
