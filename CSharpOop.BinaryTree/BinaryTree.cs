@@ -6,15 +6,15 @@ namespace CSharpOop.BinaryTree
     class BinaryTree<T>
     {
         private TreeNode<T> root;
-        private IComparer<T> comparator;
+        private readonly IComparer<T> comparer;
 
         public int Count { get; private set; }
 
         public BinaryTree() { }
 
-        public BinaryTree(IComparer<T> comparator)
+        public BinaryTree(IComparer<T> comparer)
         {
-            this.comparator = comparator;
+            this.comparer = comparer;
         }
 
         public void Add(T data)
@@ -31,7 +31,7 @@ namespace CSharpOop.BinaryTree
 
             while (true)
             {
-                if (GetCompare(data, current.Data) < 0)
+                if (Compare(data, current.Data) < 0)
                 {
                     if (current.Left != null)
                     {
@@ -57,15 +57,29 @@ namespace CSharpOop.BinaryTree
                 Count++;
 
                 return;
-
             }
         }
 
-        private int GetCompare(T data1, T data2)
+        private int Compare(T data1, T data2)
         {
-            if (comparator != null)
+            if (comparer != null)
             {
-                return comparator.Compare(data1, data2);
+                return comparer.Compare(data1, data2);
+            }
+
+            if (data1 == null && data2 == null)
+            {
+                return 0;
+            }
+
+            if (data1 == null)
+            {
+                return -1;
+            }
+
+            if (data2 == null)
+            {
+                return 1;
             }
 
             return ((IComparable<T>)data1).CompareTo(data2);
@@ -88,12 +102,14 @@ namespace CSharpOop.BinaryTree
 
             while (true)
             {
-                if (GetCompare(current.Data, data) == 0)
+                int comparerResult = Compare(data, current.Data);
+
+                if (comparerResult == 0)
                 {
                     break;
                 }
 
-                if (GetCompare(data, current.Data) < 0)
+                if (comparerResult < 0)
                 {
                     if (current.Left != null)
                     {
@@ -119,7 +135,6 @@ namespace CSharpOop.BinaryTree
                 current = null;
 
                 break;
-
             }
 
             return new TreeNode<T>[] { current, parent };
