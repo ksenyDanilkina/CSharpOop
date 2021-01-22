@@ -22,6 +22,11 @@ namespace CSharpOop.HashTableTask
 
         public HashTable(int listsArraySize)
         {
+            if (listsArraySize < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(listsArraySize), $"Размерность массива = {listsArraySize}. Размерность должна быть >= 0");
+            }
+
             listsArray = new List<T>[listsArraySize];
         }
 
@@ -54,7 +59,7 @@ namespace CSharpOop.HashTableTask
                 Array.Clear(listsArray, 0, listsArray.Length);
                 Count = 0;
                 modCount++;
-            }           
+            }
         }
 
         public bool Contains(T item)
@@ -73,12 +78,12 @@ namespace CSharpOop.HashTableTask
         {
             if (arrayIndex < 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index должен быть >= 0");
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Index = {arrayIndex}. Index должен быть >= 0");
             }
 
             if (arrayIndex >= array.Length)
             {
-                throw new ArgumentOutOfRangeException(nameof(arrayIndex), "Index = " + arrayIndex + ". Index должен быть < " + array.Length);
+                throw new ArgumentOutOfRangeException(nameof(arrayIndex), $"Index = {arrayIndex}. Index должен быть < {array.Length}");
             }
 
             if (array == null)
@@ -88,15 +93,15 @@ namespace CSharpOop.HashTableTask
 
             if (Count > array.Length - arrayIndex)
             {
-                throw new ArgumentException("Число элементов в списке больше доступного места, от положения " + arrayIndex + " до конца массива.");
+                throw new ArgumentException($"Число элементов в списке больше доступного места, от положения {arrayIndex} до конца массива.");
             }
 
-            int indexForCopy = arrayIndex;
+            int i = arrayIndex;
 
             foreach (T e in this)
             {
-                array[indexForCopy] = e;
-                indexForCopy++;
+                array[i] = e;
+                i++;
             }
         }
 
@@ -114,6 +119,7 @@ namespace CSharpOop.HashTableTask
             if (isRemoved)
             {
                 modCount++;
+                Count--;
             }
 
             return isRemoved;
@@ -123,21 +129,21 @@ namespace CSharpOop.HashTableTask
         {
             int startModCount = modCount;
 
-            for (int i = 0; i < listsArray.Length; i++)
+            foreach (List<T> e in listsArray)
             {
-                if (startModCount != modCount)
-                {
-                    throw new InvalidOperationException("Список был изменен");
-                }
-
-                if (listsArray[i] == null)
+                if (e == null)
                 {
                     continue;
                 }
 
-                foreach (T e in listsArray[i])
+                foreach (T item in e)
                 {
-                    yield return e;
+                    if (startModCount != modCount)
+                    {
+                        throw new InvalidOperationException("Список был изменен");
+                    }
+
+                    yield return item;
                 }
             }
         }

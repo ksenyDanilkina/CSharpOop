@@ -6,7 +6,7 @@ namespace CSharpOop.HashTableTask
     {
         static void Main(string[] args)
         {
-            HashTable<int> hashTable1 = new HashTable<int>() { 4, 6, 7, 9, 77, 8, 99 };
+            HashTable<int> hashTable1 = new HashTable<int> { 4, 6, 7, 9, 77, 8, 99 };
 
             Console.WriteLine("Коллекция содержит элемент = 7? " + hashTable1.Contains(7));
             Console.WriteLine("Элемент со значением = 7 удален из коллекции? " + hashTable1.Remove(7));
@@ -18,10 +18,10 @@ namespace CSharpOop.HashTableTask
 
             Console.WriteLine(hashTable1);
 
-            HashTable<string> hashTable2 = new HashTable<string>() { null, "hello" };
+            HashTable<string> hashTable2 = new HashTable<string> { null, "hello" };
             Console.WriteLine("Коллекция содержит элемент = null? " + hashTable2.Contains(null));
 
-            Console.WriteLine(hashTable2);
+            Console.WriteLine(hashTable2);           
         }
     }
 }
