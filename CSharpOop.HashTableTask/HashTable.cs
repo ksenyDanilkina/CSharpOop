@@ -22,9 +22,9 @@ namespace CSharpOop.HashTableTask
 
         public HashTable(int listsArraySize)
         {
-            if (listsArraySize < 0)
+            if (listsArraySize <= 0)
             {
-                throw new ArgumentOutOfRangeException(nameof(listsArraySize), $"Размерность массива = {listsArraySize}. Размерность должна быть >= 0");
+                throw new ArgumentOutOfRangeException(nameof(listsArraySize), $"Размерность массива = {listsArraySize}. Размерность должна быть > 0");
             }
 
             listsArray = new List<T>[listsArraySize];
